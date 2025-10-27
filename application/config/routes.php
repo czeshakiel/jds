@@ -50,6 +50,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 |		my-controller/my-method	-> my_controller/my_method
 */
 #
+$route['generate_statistic_report'] = 'pages/generate_statistic_report';
+$route['save_notes'] = 'pages/save_notes';
+$route['search_item'] = 'pages/search_item';
+$route['change_category/(:any)'] = 'pages/change_category/$1';
+$route['edit_stock_quantity'] = 'pages/edit_stock_quantity';
 $route['generate_booking_report'] = 'pages/generate_booking_report';
 $route['booking_report'] = 'pages/booking_report';
 $route['generate_sales_summary_report'] = 'pages/generate_sales_summary_report';
@@ -92,15 +97,15 @@ $route['delete_charges'] = 'pages/delete_charges';
 $route['save_charges'] = 'pages/save_charges';
 $route['reservation_details/(:any)'] = 'pages/reservation_details/$1';
 $route['check_out/(:any)'] = 'pages/check_out/$1';
-$route['check_in/(:any)'] = 'pages/check_in/$1';
-$route['cancel_reservation/(:any)'] = 'pages/cancel_reservation/$1';
+$route['check_in'] = 'pages/check_in';
+$route['cancel_reservation'] = 'pages/cancel_reservation';
 $route['update_reservation_package'] = 'pages/update_reservation_package';
 $route['update_reservation'] = 'pages/update_reservation';
 $route['change_room_hk_status'] = 'pages/change_room_hk_status';
 $route['manage_housekeeping'] = 'pages/manage_housekeeping';
 $route['print_voucher/(:any)'] = 'pages/print_voucher/$1';
 $route['print_reg_form/(:any)'] = 'pages/print_reg_form/$1';
-$route['manage_reservation'] = 'pages/manage_reservation';
+$route['manage_reservation/(:any)'] = 'pages/manage_reservation/$1';
 $route['save_reservation_package'] = 'pages/save_reservation_package';
 $route['save_reservation'] = 'pages/save_reservation';
 $route['view_available/(:any)'] = 'pages/view_available/$1';

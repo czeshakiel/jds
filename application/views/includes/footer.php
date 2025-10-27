@@ -138,9 +138,10 @@
         document.getElementById('edit_book_depart_date').value = id[7];
         document.getElementById('edit_book_adult').value = id[8];
         document.getElementById('edit_book_child').value = id[9];
-        document.getElementById('edit_book_source').value = id[10];
-        document.getElementById('edit_book_downpayment').value = id[11];
-        document.getElementById('edit_book_paymentmode').value = id[12];
+        document.getElementById('edit_book_senior').value = id[10];
+        document.getElementById('edit_book_source').value = id[11];
+        document.getElementById('edit_book_downpayment').value = id[12];
+        document.getElementById('edit_book_paymentmode').value = id[13];
     });
     $('.editReservationPackage').click(function(){
         var data=$(this).data('id');
@@ -194,6 +195,15 @@
         document.getElementById('add_stock_refno').value = id[1];        
         document.getElementById('add_stock_description').innerHTML = id[2];
     });
+    $('.editStockQty').click(function(){
+        var data=$(this).data('id');
+        var id=data.split('_');        
+        document.getElementById('edit_stock_code').value=id[0];
+        document.getElementById('edit_stock_refno').value = id[1];        
+        document.getElementById('edit_stock_description').innerHTML = id[2];
+        document.getElementById('edit_stock_old_qty').value = id[3];
+        document.getElementById('edit_stock_qty').value = id[3];
+    });
     $('.addStockImage').click(function(){
         var id=$(this).data('id');
         document.getElementById("stock_image_code").value=id;
@@ -221,7 +231,8 @@
         var id=data.split('_');
         document.getElementById("final_payment_refno").value=id[0];
         document.getElementById("final_payment_total_amount").value=id[1]; 
-        document.getElementById("final_payment_amount").value=id[1]; 
+        document.getElementById("final_payment_amount").value=id[1];
+        document.getElementById("final_payment_discount").value=id[2]; 
     });
     $('.addDiscount').click(function(){
         var id=$(this).data('id');
@@ -292,6 +303,32 @@
         document.getElementById('edit_room_qty_res_id').value=id[5];
         document.getElementById('edit_room_qty_fullname').value=id[6];
     });
+
+    $('.cancelReservation').click(function(){
+        var id=$(this).data('id');
+        document.getElementById("cancel_refno").value=id;
+    });
+
+    $('.checkIn').click(function(){
+        var data=$(this).data('id');
+        var id=data.split('_');
+        document.getElementById("checkin_refno").value=id[0];
+        document.getElementById('checkin_balance').value=id[1];
+    });
+
+    function viewStat(value){
+        if(value=="monthly"){
+            document.getElementById('stat_month').style.display = 'block';
+            document.getElementById('stat_year').style.display = 'block';
+        }else if(value=="yearly"){
+            document.getElementById('stat_month').style.display = 'none';
+            document.getElementById('stat_year').style.display = 'block';
+        }else{
+            document.getElementById('stat_month').style.display = 'none';
+            document.getElementById('stat_year').style.display = 'none';
+        }
+        
+    }
 
     function updateClock() {
       const now = new Date();

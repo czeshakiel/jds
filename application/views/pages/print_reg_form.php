@@ -49,7 +49,7 @@ if($reserve['res_mode_payment']=="credit"){
         <tr style="height:30px;">
             <td width="40%"><b>NO. OF NIGHTS: </b> <?=$reserve['res_no_nights'];?></td>
             <td width="25%"><b>RATE: </b> <?=number_format($reserve['res_room_rate'],2);?></td>
-            <td width="35%"><b>NO. OF GUEST: </b> <?=$reserve['res_no_guest'];?></td>
+            <td width="35%"><b>NO. OF GUEST: <br></b> <?=$reserve['res_no_guest_adult'];?> Adult / <?=$reserve['res_no_guest_child'];?> Child / <?=$reserve['res_no_guest_senior'];?> Senior/PWD</td>
         </tr>
         <tr style="height:30px;">
             <td width="35%"><b>DATE OF ARRIVAL: </b> <?=$reserve['res_date_arrive'];?></td>

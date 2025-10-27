@@ -94,21 +94,64 @@ date_default_timezone_set('Asia/Manila');
                     return false;
             }
         }
-        public function getAllStocksByCategory(){
+        public function getAllStocksByCategory($category){
             $dept=$this->session->dept;
             if($this->session->dept=="admin"){
-                $result=$this->db->query("SELECT * FROM stocks GROUP BY category ORDER BY category ASC");
+                if($category=="all"){
+                    $result=$this->db->query("SELECT * FROM stocks GROUP BY category ORDER BY `description` ASC LIMIT 1");
+                }else{
+                    $result=$this->db->query("SELECT * FROM stocks WHERE category='$category' GROUP BY category ORDER BY `description` ASC");
+                }
             }else{
-                $result=$this->db->query("SELECT * FROM stocks WHERE dept='$dept' GROUP BY category ORDER BY category ASC");
+                if($category=="all"){
+                    $result=$this->db->query("SELECT * FROM stocks WHERE dept='$dept' GROUP BY category ORDER BY `description` ASC LIMIT 1");
+                }else{
+                    $result=$this->db->query("SELECT * FROM stocks WHERE dept='$dept' AND category='$category' GROUP BY category ORDER BY `description` ASC");
+                }
+            }
+            return $result->result_array();
+        }
+
+        public function getAllStocksCategory(){
+            $dept=$this->session->dept;
+            if($this->session->dept=="admin"){
+                    $result=$this->db->query("SELECT * FROM stocks GROUP BY category ORDER BY category ASC");
+            }else{
+                    $result=$this->db->query("SELECT * FROM stocks WHERE dept='$dept' GROUP BY category ORDER BY category ASC");
             }
             return $result->result_array();
         }
         public function getItemByCategory($category){
+            $searchme=$this->session->searchme;
             $dept=$this->session->dept;
             if($this->session->dept=="admin"){
-                $result=$this->db->query("SELECT * FROM stocks WHERE category='$category' ORDER BY `description` ASC");
+                if($category=="all" || $category==""){
+                    if($searchme==""){
+                        $result=$this->db->query("SELECT * FROM stocks ORDER BY `description` ASC");
+                    }else{
+                        $result=$this->db->query("SELECT * FROM stocks WHERE `description` LIKE '%$searchme%' ORDER BY `description` ASC");
+                    }
+                }else{
+                    if($searchme==""){
+                        $result=$this->db->query("SELECT * FROM stocks WHERE category='$category' ORDER BY `description` ASC");
+                    }else{
+                        $result=$this->db->query("SELECT * FROM stocks WHERE category='$category' AND `description` LIKE '%$searchme%' ORDER BY `description` ASC");
+                    }
+                }
             }else{
-                $result=$this->db->query("SELECT * FROM stocks WHERE dept='$dept' aND category='$category' ORDER BY `description` ASC");
+                if($category=="all" || $category==""){
+                    if($searchme==""){
+                        $result=$this->db->query("SELECT * FROM stocks WHERE dept='$dept' ORDER BY `description` ASC");
+                    }else{
+                        $result=$this->db->query("SELECT * FROM stocks WHERE dept='$dept' AND `description` LIKE '%$searchme%' ORDER BY `description` ASC");
+                    }
+                }else{
+                    if($searchme==""){
+                        $result=$this->db->query("SELECT * FROM stocks WHERE dept='$dept' AND category='$category' ORDER BY `description` ASC");
+                    }else{
+                        $result=$this->db->query("SELECT * FROM stocks WHERE dept='$dept' AND category='$category' AND `description` LIKE '%$searchme%' ORDER BY `description` ASC");
+                    }
+                }
             }
             return $result->result_array();
         }
@@ -404,6 +447,36 @@ date_default_timezone_set('Asia/Manila');
         public function getAllSalesByCheckout($startdate,$enddate){               
                 $result=$this->db->query("SELECT r.res_fullname,rd.res_amount_paid as amount,r.res_date_depart as datearray,rd.res_amount_due as discount FROM reservation_details rd INNER JOIN reservation r ON r.res_id=rd.res_id WHERE r.res_date_depart BETWEEN '$startdate' AND '$enddate'");
                 return $result->result_array();            
+        }
+        public function edit_stock_quantity(){
+            $code=$this->input->post('code');
+            $refno=$this->input->post('refno');
+            $quantity=$this->input->post('quantity');
+            $oldqty=$this->input->post('oldqty');
+            $diff=$quantity-$oldqty;
+            $query=$this->db->query("SELECT * FROM stocks WHERE code='$code'");
+            $row=$query->row_array();
+            $itemqty=$row['quantity'];
+            $date=date('Y-m-d');
+            $time=date('H:i:s');
+            $fullname=$this->session->fullname;
+            $newqty=$itemqty+$diff;
+            if($quantity > 0){                
+                $addResult=$this->db->query("INSERT INTO stock_in SET code='$code',trans_id='$refno',quantity='$diff',datearray='$date',timearray='$time',fullname='$fullname'");
+                if($addResult){
+                    $result=$this->db->query("UPDATE stocks SET quantity='$newqty' WHERE code='$code'");
+                    if($result){
+                        return true;
+                    }else{
+                        return false;
+                    }
+                }else{
+                    return false;
+                }
+            }else{
+                return false;
+            }        
+
         }
     }
 ?>

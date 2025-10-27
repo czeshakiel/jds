@@ -44,6 +44,11 @@ if($this->session->flashdata('failed')){
                     </thead>
                     <tbody>
                         <?php
+                        if($this->session->dept=="admin"){
+                            $addqty="";
+                        }else{
+                            $addqty="style='display:none;'";
+                        }
                         $x=1;
                         foreach($stocks as $item){                            
                             echo "<tr>";
@@ -56,6 +61,7 @@ if($this->session->flashdata('failed')){
                                 ?>
                                 <td>
                                     <a href="#" class="btn btn-primary btn-sm addStockQty" data-toggle="modal" data-target="#AddStockQty" data-id="<?=$item['code'];?>_<?=date('Ymd');?>_<?=$item['description'];?>"><i class="glyphicon glyphicon-plus"></i> Add Quantity</a>                                    
+                                    <a href="#" class="btn btn-warning btn-sm editStockQty" data-toggle="modal" data-target="#EditStockQty" data-id="<?=$item['code'];?>_<?=date('Ymd');?>_<?=$item['description'];?>_<?=$item['quantity'];?>" <?=$addqty;?>><i class="glyphicon glyphicon-edit"></i> Edit</a>
                                 </td>
                                 <?php
                             echo "</tr>";

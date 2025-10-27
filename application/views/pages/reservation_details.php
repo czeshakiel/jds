@@ -6,7 +6,7 @@
             <a href="<?=base_url('main');?>">Home</a>
         </li> 
          <li>
-            <a href="<?=base_url('manage_reservation');?>">Reservation</a>
+            <a href="<?=base_url('manage_reservation/room');?>">Reservation</a>
         </li>        
         <li>
            Reservation Details
@@ -63,7 +63,7 @@ if($reserve['room_type']==""){
                             <b>Email: </b><?=$reserve['res_email'];?>
                         </td>
                         <td>                            
-                            <b>No. of Guest(s): </b><?=$reserve['res_no_guest'];?>
+                            <b>No. of Guest(s): </b><?=$reserve['res_no_guest_adult'];?> Adult / <?=$reserve['res_no_guest_child'];?> Child / <?=$reserve['res_no_guest_senior'];?> Senior/PWD
                         </td>
                     </tr>
                     <tr>
@@ -79,7 +79,14 @@ if($reserve['room_type']==""){
         </div>
         <br>
         <?php
-        $other=$reserve['res_room_rate']-$reserve['res_downpayment'];        
+        $full=0;
+        $disc=0;
+        if($checkin){
+            $full=$checkin['amount'];
+            $disc=$reserve['res_room_rate']-$reserve['res_downpayment']-$full;
+        }
+
+        $other=$reserve['res_room_rate']-$reserve['res_downpayment']-$full-$disc;        
         foreach($charges as $item){
             $other += $item['amount'];            
         }        
@@ -90,6 +97,12 @@ if($reserve['room_type']==""){
             $bill="";
             $label="Print Final Bill";
         }
+        $disc=0;
+                            if($reserve['res_no_guest_senior'] > 0){
+                                $totalpax=$reserve['res_no_guest_adult']+$reserve['res_no_guest_child']+$reserve['res_no_guest_senior'];
+                                $person=$other/$totalpax;
+                                $disc=($person*.20)*$reserve['res_no_guest_senior'];                                
+                            }
         ?>
         <div class="box-inner">
             <div class="box-header well">
@@ -97,7 +110,7 @@ if($reserve['room_type']==""){
                 <div style="float:right;">
                     <a href="#" class="btn btn-round btn-default addCharges" <?=$bill;?>  title="Add New Charges" data-toggle="modal" data-target="#AddCharges" data-id="<?=$refno;?>"><i class="glyphicon glyphicon-plus"></i> Add Charges</a>
                     <a href="<?=base_url('request_fbs/'.$refno);?>" <?=$bill;?> class="btn btn-round btn-default requestFBS" title="Food Request"><i class="glyphicon glyphicon-folder-close"></i> FBS Request</a>
-                    <a href="#" class="btn btn-round btn-default billPayment" <?=$bill;?> title="Payment" data-toggle="modal" data-target="#BillPayment" data-id="<?=$refno;?>_<?=$other;?>"><i class="glyphicon glyphicon-folder-open"></i> Payment</a>
+                    <a href="#" class="btn btn-round btn-default billPayment" <?=$bill;?> title="Payment" data-toggle="modal" data-target="#BillPayment" data-id="<?=$refno;?>_<?=$other;?>_<?=$disc;?>"><i class="glyphicon glyphicon-folder-open"></i> Payment</a>
                     <a href="<?=base_url('print_bill/'.$refno);?>" class="btn btn-round btn-default" title="Print Billing Statement" target="_blank"><i class="glyphicon glyphicon-print"></i> <?=$label;?></a>                    
                 </div>              
             </div>

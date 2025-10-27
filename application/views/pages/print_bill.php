@@ -39,7 +39,7 @@
         <tr>
             <td valign="top"><?=$reserve['res_id'];?></td>
             <td valign="top"><b><?=$reserve['room_type'];?> - <?=$reserve['room_color'];?></b><br><?=date('d-M-Y',strtotime($reserve['res_date_arrive']));?> to <?=date('d-M-Y',strtotime($reserve['res_date_depart']));?></td>
-            <td valign="top"><b><?=$reserve['res_no_nights'];?> Night(s) @ <?=number_format($reserve['res_room_rate'],2);?></b><br><?=$reserve['res_no_guest'];?></td>
+            <td valign="top"><b><?=$reserve['res_no_nights'];?> Night(s) @ <?=number_format($reserve['res_room_rate'],2);?></b><br><font style="font-size:14px;"><?=$reserve['res_no_guest_adult'];?> Adult / <?=$reserve['res_no_guest_child'];?> Child /<?=$reserve['res_no_guest_senior'];?> Senior/PWD</font></td>
             <td valign="top" align="center"><?=$reserve['res_no_nights'];?></td>
             <?php
             if($reserve['res_no_nights']=="0"){
@@ -69,9 +69,15 @@
         }
         $paid=0;
         $disc=0;
+        $disc1=0;
+        $paid1=0;
         if($payment){
             $paid=$payment['res_amount_paid'];
             $disc=$payment['res_amount_due'];
+        }
+        if($checkin){
+            $paid1=$checkin['amount'];
+            $disc1=$reserve['res_room_rate']-$reserve['res_downpayment']-$checkin['amount'];
         }
         ?>        
         <tr style="border-top:1px solid black;">
@@ -93,19 +99,19 @@
             </tr>
             <tr>
                 <td align="right" width="80%"><b>Discount:</b></td>
-                <td align="right" style="border-top:1px solid black; border-bottom:1px solid black;"><b>(<?=number_format($disc,2);?>)</b></td>
+                <td align="right" style="border-top:1px solid black; border-bottom:1px solid black;"><b>(<?=number_format($disc+$disc1,2);?>)</b></td>
             </tr>
             <tr>
                 <td align="right" width="80%"><b>Total Amount Due:</b></td>
-                <td align="right" style="border-top:1px solid black;"><b><?=number_format($och+($no*$reserve['res_room_rate'])-$reserve['res_downpayment']-$disc,2);?></b></td>
+                <td align="right" style="border-top:1px solid black;"><b><?=number_format($och+($no*$reserve['res_room_rate'])-$reserve['res_downpayment']-$disc-$disc1,2);?></b></td>
             </tr>            
             <tr>
                 <td align="right" width="80%"><b>Amount Paid:</b></td>
-                <td align="right" style="border-top:1px solid black; border-bottom:1px solid black;"><b>(<?=number_format($paid-$disc,2);?>)</b></td>
+                <td align="right" style="border-top:1px solid black; border-bottom:1px solid black;"><b>(<?=number_format($paid-$disc+$paid1,2);?>)</b></td>
             </tr>
             <tr>
                 <td align="right" width="80%"><b>Amount Payable:</b></td>
-                <td align="right"><b><?=number_format($och+($no*$reserve['res_room_rate'])-$reserve['res_downpayment']-$paid,2);?></b></td>
+                <td align="right"><b><?=number_format($och+($no*$reserve['res_room_rate'])-$reserve['res_downpayment']-$paid-$paid1-$disc1,2);?></b></td>
             </tr>
         </table>
 </div>

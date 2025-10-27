@@ -270,7 +270,7 @@ date_default_timezone_set('Asia/Manila');
             $date=$this->input->post('arrival_date');
             $save=$this->Reservation_model->save_reservation();
             if($save){
-                redirect(base_url('manage_reservation'));   
+                redirect(base_url('manage_reservation/room'));   
             }else{
                 $this->session->set_flashdata('failed','Unable to save reservation details!');
                 redirect(base_url('view_available/'.$date));
@@ -280,23 +280,21 @@ date_default_timezone_set('Asia/Manila');
             $date=$this->input->post('arrival_date');
             $save=$this->Reservation_model->save_reservation_package();
             if($save){
-                redirect(base_url('manage_reservation'));   
+                redirect(base_url('manage_reservation/package'));   
             }else{
                 $this->session->set_flashdata('failed','Unable to save reservation details!');
                 redirect(base_url('view_available/'.$date));
             }
         }
-        public function manage_reservation(){
+        public function manage_reservation($type){
             $page = "manage_reservation";
             if(!file_exists(APPPATH.'views/pages/'.$page.".php")){
                 show_404();
             }                        
             if($this->session->user_login){}
             else{redirect(base_url());}
-            $data['booked'] = $this->Reservation_model->getReservation('booked');
-            $data['checkedin'] = $this->Reservation_model->getReservation('checkedin');
-            $data['checkedout'] = $this->Reservation_model->getReservation('checkedout');            
-
+            $data['booked'] = $this->Reservation_model->getReservationByType('booked',$type);
+            $data['checkedin'] = $this->Reservation_model->getReservation('checkedin');   
             $this->load->view('includes/header'); 
             $this->load->view('includes/navbar');           
             $this->load->view('includes/sidebar');            
@@ -358,7 +356,7 @@ date_default_timezone_set('Asia/Manila');
             }else{
                 $this->session->set_flashdata('failed','Unable to update reservation details!');                
             }
-            redirect(base_url('manage_reservation'));
+            redirect(base_url('manage_reservation/room'));
         }
         public function update_reservation_package(){
             $date=$this->input->post('arrival_date');
@@ -368,25 +366,33 @@ date_default_timezone_set('Asia/Manila');
             }else{
                 $this->session->set_flashdata('failed','Unable to update reservation details!');                
             }
-            redirect(base_url('manage_reservation'));
+            redirect(base_url('manage_reservation/package'));
         }
-        public function cancel_reservation($id){
-            $save=$this->Reservation_model->cancel_reservation($id);
-            if($save){
-                $this->session->set_flashdata('success','Reservation successfull cancelled!');
+        public function cancel_reservation(){
+            $refno=$this->input->post('refno');
+            $username=$this->input->post('username');
+            $password=$this->input->post('password');
+            $check=$this->Reservation_model->checkUser($username,$password);
+            if($check){
+                $save=$this->Reservation_model->cancel_reservation($refno);
+                if($save){
+                    $this->session->set_flashdata('success','Reservation successfull cancelled!');
+                }else{
+                    $this->session->set_flashdata('failed','Unable to cancel reservation!');
+                }
             }else{
-                $this->session->set_flashdata('failed','Unable to cancel reservation!');
+                $this->session->set_flashdata('failed','You are not authorized!');
             }
             redirect(base_url('manage_reservation'));
         }
-        public function check_in($id){
-            $save=$this->Reservation_model->check_in($id);
+        public function check_in(){
+            $save=$this->Reservation_model->check_in();
             if($save){
                 $this->session->set_flashdata('success','Checked in successfully!');
             }else{
                 $this->session->set_flashdata('failed','Unable to check in!');
             }
-            redirect(base_url('manage_reservation'));
+            redirect(base_url('manage_reservation/room'));
         }
         public function check_out($id){
             $save=$this->Reservation_model->check_out($id);
@@ -395,7 +401,7 @@ date_default_timezone_set('Asia/Manila');
             }else{
                 $this->session->set_flashdata('failed','Unable to check out!');
             }
-            redirect(base_url('manage_reservation'));
+            redirect(base_url('manage_reservation/room'));
         }
         public function reservation_details($id){
             $page = "reservation_details";
@@ -407,6 +413,7 @@ date_default_timezone_set('Asia/Manila');
             $data['reserve'] = $this->Reservation_model->getSingleReservation($id);    
             $data['charges'] = $this->Reservation_model->getAllCharges($id);
             $data['payment'] = $this->Reservation_model->getPayment($id);
+            $data['checkin'] = $this->Reservation_model->getCheckInPayment($id);
             $data['refno'] = $id;
             $this->load->view('includes/header'); 
             $this->load->view('includes/navbar');           
@@ -512,6 +519,15 @@ date_default_timezone_set('Asia/Manila');
             }
             redirect(base_url('manage_stock_quantity'));
         }
+        public function edit_stock_quantity(){            
+            $save=$this->Sales_model->edit_stock_quantity();
+            if($save){
+                $this->session->set_flashdata('success','Stock quantity details successfully added!');                   
+            }else{
+                $this->session->set_flashdata('failed','Unable to add stock quantity details!');                
+            }
+            redirect(base_url('manage_stock_quantity'));
+        }
         public function save_stock_image(){
             $save=$this->Sales_model->save_stock_image();
             if($save){
@@ -529,13 +545,19 @@ date_default_timezone_set('Asia/Manila');
             if($this->session->user_login){}
             else{redirect(base_url());}
             if($this->session->refno){
-                $refno=$this->session->refno;
+                $refno=$this->session->refno;                
             }else{
                 $refno="";
             }
-            $data['category'] = $this->Sales_model->getAllStocksByCategory();
+            if($this->session->type){
+                $type=$this->session->type;
+            }else{
+                $type="all";
+            }
+            $data['category'] = $this->Sales_model->getAllStocksByCategory($type);
             $data['refno'] = $refno;
             $data['tender'] = $this->Sales_model->tendered($refno);
+            $data['type'] = $this->Sales_model->getAllStocksCategory();
             $this->load->view('includes/header'); 
             $this->load->view('includes/navbar');           
             $this->load->view('includes/sidebar');            
@@ -546,12 +568,16 @@ date_default_timezone_set('Asia/Manila');
         public function new_transaction(){
             $refno=date('YmdHis');
             $this->session->set_userdata('refno',$refno);
+            $this->session->unset_userdata('type');
+            $this->session->unset_userdata('searchme');
             $this->Sales_model->emptyOrder();
             redirect(base_url('point_of_sale'));
         }
         public function cancel_transaction($refno){
             $this->Sales_model->cancel_transaction($refno);
             $this->session->unset_userdata('refno');
+            $this->session->unset_userdata('type');
+            $this->session->unset_userdata('searchme');
             redirect(base_url('point_of_sale'));
         }
         public function add_item($code){
@@ -819,7 +845,8 @@ date_default_timezone_set('Asia/Manila');
             $data['info'] = $this->General_model->getSettings();
             $data['reserve'] = $this->Reservation_model->getSingleReservation($id);  
             $data['charges'] = $this->Reservation_model->getAllCharges($id);
-            $data['payment'] = $this->Reservation_model->getPayment($id);            
+            $data['payment'] = $this->Reservation_model->getPayment($id);
+            $data['checkin'] = $this->Reservation_model->getCheckInPayment($id);            
             $this->load->view('pages/'.$page,$data);                           
         }
         public function sales_report(){
@@ -931,6 +958,49 @@ date_default_timezone_set('Asia/Manila');
             }else{
                 $data['type'] = "CHECKED OUT";
             }
+            $this->load->view('pages/'.$page,$data);                           
+        }
+        public function change_category($type){
+            $this->session->unset_userdata('searchme');
+            $this->session->set_userdata('type',$type);
+            redirect(base_url('point_of_sale'));
+        }
+        public function search_item(){
+            $description=$this->input->post('searchme');
+            $this->session->set_userdata('searchme',$description);
+            redirect(base_url('point_of_sale'));
+        }
+        public function save_notes(){
+            $save=$this->General_model->save_notes();
+            echo "<script>";
+                echo "window.history.back();";
+            echo "</script>";
+        }
+        public function generate_statistic_report(){
+            $page = "generate_statistic_report";
+            if(!file_exists(APPPATH.'views/pages/'.$page.".php")){
+                show_404();
+            }                        
+            if($this->session->user_login){}
+            else{redirect(base_url());}
+            $month=$this->input->post('month');
+            $year=$this->input->post('year');
+            $type=$this->input->post('type');
+            if($type=="monthly"){
+                $startdate=$year."-".$month."-01";
+                $enddate=date('Y-m-t',strtotime($year."-".$month));
+                $type="MONTHLY";
+            }            
+            if($type=="yearly"){
+                $startdate=$year."-01-01";
+                $enddate=$year."-12-31";
+                $type="YEARLY";
+            }
+            $data['info'] = $this->General_model->getSettings(); 
+            $data['items'] = $this->Reservation_model->getAllStatistic($startdate,$enddate);         
+            $data['startdate'] = $startdate;
+            $data['enddate'] = $enddate;
+            $data['type'] = $type;
             $this->load->view('pages/'.$page,$data);                           
         }
 }

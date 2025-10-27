@@ -216,5 +216,23 @@ date_default_timezone_set('Asia/Manila');
                 }
             }            
         }
+        public function save_notes(){
+            $text=$this->input->post('notes');
+            $check=$this->db->query("SELECT * FROM notes");
+            if($check->num_rows()>0){
+                $result=$this->db->query("UPDATE notes SET notes='$text'");
+            }else{
+                $result=$this->db->query("INSERT INTO notes SET notes='$text'");
+            }
+            return true;
+        }
+        public function getNotes(){
+            $result=$this->db->query("SELECT * FROM notes");
+            if($result->num_rows()>0){
+                return $result->row_array();
+            }else{
+                return false;
+            }
+        }
     }
 ?>

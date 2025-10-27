@@ -14,8 +14,9 @@
         </ul>
     </div>
     <?php
-    
+    $disabled="";
     if($refno==""){
+        $disabled="pointer-events: none; cursor: default;";
         $cancel="style='display:none;'";
         $new="";
     }else{
@@ -26,8 +27,6 @@
         $disabled="pointer-events: none; cursor: default;";
         $cancel="style='display:none;'";
         $new="";
-    }else{
-        $disabled="";
     }
     if(count($category)>0){
         $new="";
@@ -46,29 +45,47 @@
                                 class="glyphicon glyphicon-plus"></i> New Transaction</a>                        
                         <a href="<?=base_url('cancel_transaction/'.$refno);?>" class="btn btn-danger btn-round btn-sm" <?=$cancel;?> onclick="return confirm('Do you wish to cancel this transaction?'); return false;"><i
                                 class="glyphicon glyphicon-remove"></i> Cancel Transaction</a>
+                                
                     </div>
                 </div>
                 <div class="box-content">
-                     <ul class="nav nav-tabs" id="myTab">
+                     <!-- <ul class="nav nav-tabs" id="myTab">
                         <?php
-                            foreach($category as $cat){
+                           // foreach($category as $cat){
                         ?>
                         <li><a href="#<?=$cat['category'];?>"><?=$cat['category'];?></a></li>                       
+                        <?php
+                            //}
+                            ?>
+                    </ul> -->
+                    <?=form_open(base_url('search_item'));?>
+                                    <input type="text" name="searchme" class="form-control" required placeholder="Search Item">
+                                <?=form_close();?>
+                                <br>
+                    <ul class="breadcrumb">
+                        <li>
+                            <a href="<?=base_url('change_category/all');?>">All</a>
+                        </li>
+                        <?php
+                            foreach($type as $cat){
+                        ?>
+                            <li><a href="<?=base_url('change_category/'.$cat['category']);?>"><?=$cat['category'];?></a></li>                       
                         <?php
                             }
                             ?>
                     </ul>
-                    <div id="myTabContent" class="tab-content">
+                    <!-- <div id="myTabContent" class="tab-content"> -->
+                        <table width="100%" border="0">
                         <?php                        
                             foreach($category as $cat){
                             
                         ?>                       
-                        <div class="tab-pane" id="<?=$cat['category'];?>">                                                        
-                            <table width="100%" border="0">
+                        <!-- <div class="tab-pane" id="<?=$cat['category'];?>">                                                         -->
+                            
                                 <tr>
                                 <?php
                                     $x=1;
-                                    $items=$this->Sales_model->getItemByCategory($cat['category']);
+                                    $items=$this->Sales_model->getItemByCategory($this->session->type);
                                     foreach($items as $item){
                                         if($item['quantity']>0){
                                             $q="";
@@ -79,21 +96,22 @@
                                 <td style="text-align:center;" width="100">
                                     <a href="<?=base_url('add_item/'.$item['code']);?>" style="text-decoration:none; color:black; <?=$disabled;?> <?=$q;?>">
                                     <img src="data:image/jpg;charset=utf8;base64,<?=base64_encode($item['img']);?>" alt="Item" width="100"><br>                            
-                                    <?=$item['description'];?><br>P <?=number_format($item['sellingprice'],2);?><br>Quantity: <?=$item['quantity'];?>                                    
+                                    <b style="font-size:20px;"><?=$item['description'];?></b><br>P <?=number_format($item['sellingprice'],2);?><br>Quantity: <?=$item['quantity'];?></b>                                    
                                     </a>
                                 </td>
                                 <?php
-                                if($x >= 5){echo "</tr>";}
+                                if($x >= 5){echo "</tr>"; $x=1;}
                                 $x++;
                                     }
                                 ?>  
                                 </tr>      
-                            </table> 
-                        </div>  
+                            
+                        <!-- </div>   -->
                         <?php
                             }
-                            ?>                 
-                    </div>                    
+                            ?>  
+                            </table>                
+                    <!-- </div>                     -->
                 </div>
             </div>
         </div>

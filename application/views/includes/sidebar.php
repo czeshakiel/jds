@@ -7,6 +7,7 @@ if($this->session->dept=="admin"){
     $reports="";
     $settings="";
     $addqty="";
+    $notes="";
 }
 if($this->session->dept=="FRONT OFFICE"){
     $dashboard="";
@@ -16,6 +17,7 @@ if($this->session->dept=="FRONT OFFICE"){
     $reports="style='display:none;'";
     $settings="style='display:none;'";
     $addqty="style='display:none;'";
+    $notes="";
 }
 if($this->session->dept=="CAFE" || $this->session->dept=="FOOD KIOSK" || $this->session->dept=="SOUVENIR"){
     $dashboard="style='display:none;'";
@@ -25,6 +27,7 @@ if($this->session->dept=="CAFE" || $this->session->dept=="FOOD KIOSK" || $this->
     $addqty="style='display:none;'";
     $reports="style='display:none;'";
     $settings="style='display:none;'";
+    $notes="style='display:none;'";
 }
 if($this->session->dept=="HOUSEKEEPING"){
     $dashboard="style='display:none;'";
@@ -34,6 +37,7 @@ if($this->session->dept=="HOUSEKEEPING"){
     $reports="style='display:none;'";
     $settings="style='display:none;'";
     $addqty="style='display:none;'";
+    $notes="style='display:none;'";
 }
 ?>
 <div class="ch-container">
@@ -50,7 +54,7 @@ if($this->session->dept=="HOUSEKEEPING"){
                         <li class="nav-header">Main</li>
                         <li <?=$dashboard;?>><a class="ajax-link" href="<?=base_url('main');?>"><i class="glyphicon glyphicon-home"></i><span> Dashboard</span></a>
                         </li>                        
-                        <li <?=$reservation;?>><a class="ajax-link" href="<?=base_url('manage_reservation');?>"><i class="glyphicon glyphicon-book"></i><span> Reservation</span></a>
+                        <li <?=$reservation;?>><a class="ajax-link" href="<?=base_url('manage_reservation/room');?>"><i class="glyphicon glyphicon-book"></i><span> Reservation</span></a>
                         </li>
                         <li <?=$housekeeping;?>><a class="ajax-link" href="<?=base_url('manage_housekeeping');?>"><i class="glyphicon glyphicon-tasks"></i><span> Housekeeping</span></a>
                         </li>
@@ -67,7 +71,7 @@ if($this->session->dept=="HOUSEKEEPING"){
                                 <li><a href="<?=base_url('point_of_sale');?>">Point of Sales</a></li>
                                 <li><a href="<?=base_url('room_charges');?>">Room Charges <?=$pen;?></a></li>
                                 <li><a href="<?=base_url('track_invoice');?>">Track Invoice</a></li>
-                                <li <?=$addqty;?>><a href="<?=base_url('manage_stock_quantity');?>">Stock Quantity</a></li>                                
+                                <li><a href="<?=base_url('manage_stock_quantity');?>">Stock Quantity</a></li>                                
                             </ul>
                         </li>
                         <li class="accordion" <?=$reports;?>>
@@ -89,6 +93,26 @@ if($this->session->dept=="HOUSEKEEPING"){
                             </ul>
                         </li>                        
                     </ul>                    
+                </div>
+            </div>
+            <br>
+            <?php
+            $note=$this->General_model->getNotes();
+            if($note){
+                $mynotes=$note['notes'];
+            }else{
+                $mynotes="";
+            }
+            ?>
+            <div class="sidebar-nav" <?=$notes;?>>
+                <div class="nav-canvas">
+                    <div class="nav nav-pills nav-stacked main-menu" style="padding:10px;">
+                        <h5>My Notes</h5>
+                        <?=form_open(base_url("save_notes"));?>
+                        <textarea name="notes" class="form-control" rows="10"><?=$mynotes;?></textarea><br>
+                        <input type="submit" class="btn btn-primary btn-sm" value="Save">
+                        <?=form_close();?>
+                    </div>                 
                 </div>
             </div>
         </div>

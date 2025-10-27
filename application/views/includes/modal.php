@@ -357,6 +357,33 @@
                     </select>
                 </div>
                 <div class="form-group">
+                    <label for="exampleInputEmail1">No of Senior/PWD</label>
+                    <select name="senior" class="form-control" required>
+                        <option value="">Select No. of Senior/PWD</option>
+                        <option value="0">0</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                        <option value="7">7</option>
+                        <option value="8">8</option>
+                        <option value="9">9</option>
+                        <option value="10">10</option>
+                        <option value="11">11</option>
+                        <option value="12">12</option>
+                        <option value="13">13</option>
+                        <option value="14">14</option>
+                        <option value="15">15</option>
+                        <option value="16">16</option>
+                        <option value="17">17</option>
+                        <option value="18">18</option>
+                        <option value="19">19</option>
+                        <option value="20">20</option>
+                    </select>
+                </div>
+                <div class="form-group">
                     <label for="exampleInputEmail1">Source</label>
                     <select name="source" class="form-control" required>
                         <option value="">Select Source</option>
@@ -544,6 +571,33 @@
                     <label for="exampleInputEmail1">No of Child</label>
                     <select name="child" class="form-control" required id="edit_book_child">
                         <option value="">Select No. of Child</option>
+                        <option value="0">0</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                        <option value="7">7</option>
+                        <option value="8">8</option>
+                        <option value="9">9</option>
+                        <option value="10">10</option>
+                        <option value="11">11</option>
+                        <option value="12">12</option>
+                        <option value="13">13</option>
+                        <option value="14">14</option>
+                        <option value="15">15</option>
+                        <option value="16">16</option>
+                        <option value="17">17</option>
+                        <option value="18">18</option>
+                        <option value="19">19</option>
+                        <option value="20">20</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputEmail1">No of Senior/PWD</label>
+                    <select name="senior" class="form-control" required id="edit_book_senior">
+                        <option value="">Select No. of Senior/PWD</option>
                         <option value="0">0</option>
                         <option value="1">1</option>
                         <option value="2">2</option>
@@ -1100,7 +1154,7 @@
                 </div>
                 <div class="form-group">
                     <label for="exampleInputEmail1">Discount</label>
-                    <input type="text" name="discount" class="form-control">
+                    <input type="text" name="discount" class="form-control" id="final_payment_discount">
                 </div>                                
             </div>
             <div class="modal-footer">
@@ -1240,6 +1294,8 @@
     </div>
 </div>
 
+
+
 <div class="modal fade" id="EditReservationPackage" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -1334,7 +1390,7 @@
                 </div>
                 <div class="form-group">
                     <label for="exampleInputEmail1">No of Pax</label>
-                    <input type="text" name="pax" class="form-control" id="edit_book_pax_package"
+                    <input type="text" name="pax" class="form-control" id="edit_book_pax_package">
                 </div>                
                 <div class="form-group">
                     <label for="exampleInputEmail1">Source</label>
@@ -1358,6 +1414,88 @@
                         <option value="credit">Debit/Credit Payment</option>
                     </select>
                 </div>
+            </div>
+            <div class="modal-footer">
+                <a href="#" class="btn btn-default" data-dismiss="modal">Close</a>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="EditStockQty" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form role="form" action="<?=base_url('edit_stock_quantity');?>" method="POST" enctype="multipart/form-data"> 
+                <input type="hidden" name="code" id="edit_stock_code">
+                <input type="hidden" name="refno" id="edit_stock_refno">
+                <input type="hidden" name="oldqty" id="edit_stock_old_qty">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">×</button>
+                <h3>EDit Quantity</h3>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Item Description</label>
+                    <p style="font-size:20px;" id="edit_stock_description"></p>
+                </div>                
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Quantity</label>
+                    <input type="text" name="quantity" class="form-control" required id="edit_stock_qty">
+                </div>                
+            </div>
+            <div class="modal-footer">
+                <a href="#" class="btn btn-default" data-dismiss="modal">Close</a>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="CancelReservation" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form role="form" action="<?=base_url('cancel_reservation');?>" method="POST" enctype="multipart/form-data"> 
+                <input type="hidden" name="refno" id="cancel_refno">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">×</button>
+                <h3>Cancel Reservation?</h3>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Username</label>
+                    <input type="text" name="username" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Password</label>
+                    <input type="password" name="password" class="form-control" required>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <a href="#" class="btn btn-default" data-dismiss="modal">Close</a>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="CheckIn" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form role="form" action="<?=base_url('check_in');?>" method="POST" enctype="multipart/form-data"> 
+                <input type="hidden" name="refno" id="checkin_refno">                
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">×</button>
+                <h3>Payment</h3>
+            </div>
+            <div class="modal-body">                                               
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Payment Amount</label>
+                    <input type="text" name="amount" class="form-control"  id="checkin_balance">
+                </div>                               
             </div>
             <div class="modal-footer">
                 <a href="#" class="btn btn-default" data-dismiss="modal">Close</a>

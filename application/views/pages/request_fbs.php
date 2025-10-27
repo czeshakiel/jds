@@ -6,7 +6,7 @@
             <a href="<?=base_url('main');?>">Home</a>
         </li> 
          <li>
-            <a href="<?=base_url('manage_reservation');?>">Reservation</a>
+            <a href="<?=base_url('manage_reservation/room');?>">Reservation</a>
         </li>        
         <li>
           <a href="<?=base_url('reservation_details/'.$refno);?>">Reservation Details</a>
@@ -66,7 +66,7 @@ if($reserve['room_type']==""){
                             <b>Email: </b><?=$reserve['res_email'];?>
                         </td>
                         <td>                            
-                            <b>No. of Guest(s): </b><?=$reserve['res_no_guest'];?>
+                            <b>No. of Guest(s): </b><?=$reserve['res_no_guest_adult'];?> Adult / <?=$reserve['res_no_guest_child'];?> Child / <?=$reserve['res_no_guest_senior'];?> Senior/PWD
                         </td>
                     </tr>
                     <tr>

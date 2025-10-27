@@ -8,6 +8,14 @@
             $result=$this->db->query("SELECT r.*,rm.room_type,rm.room_color,p.description FROM reservation r LEFT JOIN room rm ON rm.id=r.res_room_id LEFT JOIN package p ON p.id=r.res_room_id WHERE r.res_status='$status' ORDER BY r.res_date_arrive ASC");
             return $result->result_array();
         }
+        public function getReservationByType($status,$type){
+            if($type=="package"){
+                $result=$this->db->query("SELECT r.*,rm.room_type,rm.room_color,p.description FROM reservation r LEFT JOIN room rm ON rm.id=r.res_room_id LEFT JOIN package p ON p.id=r.res_room_id WHERE r.res_status='$status' AND p.description LIKE '%PACKAGE%' ORDER BY r.res_date_arrive ASC");
+            }else{
+                $result=$this->db->query("SELECT r.*,rm.room_type,rm.room_color,p.description FROM reservation r LEFT JOIN room rm ON rm.id=r.res_room_id LEFT JOIN package p ON p.id=r.res_room_id WHERE r.res_status='$status' AND (rm.room_type LIKE '%HOUSE%' OR rm.room_type LIKE '%BUNK%' OR rm.room_type LIKE '%DECK%') ORDER BY r.res_date_arrive ASC");
+            }
+            return $result->result_array();
+        }
         public function getExistingClient(){
             $result=$this->db->query("SELECT res_fullname FROM reservation GROUP BY res_fullname");
             return $result->result_array();
@@ -40,7 +48,8 @@
             $departure_date=$this->input->post('departure_date');
             $adult=$this->input->post('adult');
             $child=$this->input->post('child');
-            $no_guest=$adult." Adult/ ".$child." Child";
+            $senior=$this->input->post('senior');
+            //$no_guest=$adult." Adult/ ".$child." Child";
             $source=$this->input->post('source');
             $downpayment=$this->input->post('downpayment');
             $paymentmode=$this->input->post('paymentmode');
@@ -62,7 +71,7 @@
             }else{
                 $room_rate=0;
             }
-            $result=$this->db->query("INSERT INTO reservation SET res_id='$refno',res_fullname='$fullname',res_address='$address',res_contactno='$contactno',res_email='$email',res_nationality='$nationality',res_date_arrive='$arrival_date',res_time_arrive='$arrival_time',res_date_depart='$departure_date',res_time_depart='$departure_time',res_book_date='$date',res_book_time='$time',res_no_nights='$no_night',res_no_guest='$no_guest',res_room_id='$room_id',res_room_rate='$room_rate',res_downpayment='$downpayment',res_status='booked',res_user='$loginuser',res_source='$source',res_mode_payment='$paymentmode'");
+            $result=$this->db->query("INSERT INTO reservation SET res_id='$refno',res_fullname='$fullname',res_address='$address',res_contactno='$contactno',res_email='$email',res_nationality='$nationality',res_date_arrive='$arrival_date',res_time_arrive='$arrival_time',res_date_depart='$departure_date',res_time_depart='$departure_time',res_book_date='$date',res_book_time='$time',res_no_nights='$no_night',res_no_guest_adult='$adult',res_no_guest_child='$child',res_no_guest_senior='$senior',res_room_id='$room_id',res_room_rate='$room_rate',res_downpayment='$downpayment',res_status='booked',res_user='$loginuser',res_source='$source',res_mode_payment='$paymentmode'");
             if($result){
                 return true;
             }else{
@@ -96,7 +105,7 @@
             $query=$this->db->query("SELECT * FROM package WHERE id='$room_id'");
             $r=$query->row_array();           
             $room_rate=$r['rate'];
-            $result=$this->db->query("INSERT INTO reservation SET res_id='$refno',res_fullname='$fullname',res_address='$address',res_contactno='$contactno',res_email='$email',res_nationality='$nationality',res_date_arrive='$arrival_date',res_time_arrive='$arrival_time',res_date_depart='$departure_date',res_time_depart='$departure_time',res_book_date='$date',res_book_time='$time',res_no_nights='$no_night',res_no_guest='$no_guest',res_room_id='$room_id',res_room_rate='$room_rate',res_downpayment='$downpayment',res_status='booked',res_user='$loginuser',res_source='$source',res_mode_payment='$paymentmode'");
+            $result=$this->db->query("INSERT INTO reservation SET res_id='$refno',res_fullname='$fullname',res_address='$address',res_contactno='$contactno',res_email='$email',res_nationality='$nationality',res_date_arrive='$arrival_date',res_time_arrive='$arrival_time',res_date_depart='$departure_date',res_time_depart='$departure_time',res_book_date='$date',res_book_time='$time',res_no_nights='$no_night',res_no_guest_adult='$no_guest',res_room_id='$room_id',res_room_rate='$room_rate',res_downpayment='$downpayment',res_status='booked',res_user='$loginuser',res_source='$source',res_mode_payment='$paymentmode'");
             if($result){
                 return true;
             }else{
@@ -136,6 +145,7 @@
             $departure_date=$this->input->post('departure_date');
             $adult=$this->input->post('adult');
             $child=$this->input->post('child');
+            $senior=$this->input->post('senior');
             $no_guest=$adult." Adult/ ".$child." Child";
             $source=$this->input->post('source');
             $downpayment=$this->input->post('downpayment');
@@ -143,7 +153,7 @@
             $date=date('Y-m-d');
             $time=date('H:i:s');            
             $loginuser=$this->session->fullname;
-            $result=$this->db->query("UPDATE reservation SET res_fullname='$fullname',res_address='$address',res_contactno='$contactno',res_email='$email',res_nationality='$nationality',res_date_arrive='$arrival_date',res_time_arrive='$arrival_time',res_date_depart='$departure_date',res_time_depart='$departure_time',res_no_guest='$no_guest',res_downpayment='$downpayment',res_status='booked',res_user='$loginuser',res_source='$source',res_mode_payment='$paymentmode' WHERE res_id='$refno'");
+            $result=$this->db->query("UPDATE reservation SET res_fullname='$fullname',res_address='$address',res_contactno='$contactno',res_email='$email',res_nationality='$nationality',res_date_arrive='$arrival_date',res_time_arrive='$arrival_time',res_date_depart='$departure_date',res_time_depart='$departure_time',res_no_guest_adult='$adult',res_no_guest_child='$child',res_no_guest_senior='$senior',res_downpayment='$downpayment',res_status='booked',res_user='$loginuser',res_source='$source',res_mode_payment='$paymentmode' WHERE res_id='$refno'");
             if($result){
                 return true;
             }else{
@@ -182,12 +192,18 @@
                 return false;
             }
         }
-        public function check_in($id){
+        public function check_in(){
+            $id=$this->input->post('refno');
+            $amount=$this->input->post('amount');
+            $date=date('Y-m-d');
+            $time=date('H:i:s');
+            $fullname=$this->session->fullname;
             $result=$this->db->query("UPDATE reservation SET res_status='checkedin' WHERE res_id='$id'");
             if($result){
                 $qry=$this->db->query("SELECT * FROM reservation WHERE res_id='$id'");
                 $res=$qry->row_array();
                 $this->db->query("UPDATE room SET room_fo_status='occupied' WHERE id='$res[res_room_id]'");
+                $this->db->query("INSERT INTO reservation_payment SET res_id='$id',amount='$amount',datearray='$date',timearray='$time',fullname='$fullname'");
                 return true;
             }else{
                 return false;
@@ -279,6 +295,18 @@
             }else{
                 $result=$this->db->query("SELECT r.*,rm.room_type,rm.room_color,p.description FROM reservation r LEFT JOIN room rm ON rm.id=r.res_room_id LEFT JOIN package p ON p.id=r.res_room_id WHERE r.res_date_depart BETWEEN '$startdate' AND '$enddate' ORDER BY r.res_date_depart ASC");
             }
+            return $result->result_array();
+        }
+        public function getCheckInPayment($refno){
+            $result=$this->db->query("SELECT * FROM reservation_payment WHERE res_id='$refno'");
+            if($result->num_rows()>0){
+                return $result->row_array();
+            }else{
+                return false;
+            }
+        }
+        public function getAllStatistic($startdate,$enddate){
+            $result=$this->db->query("SELECT * FROM reservation WHERE res_date_depart BETWEEN '$startdate' AND '$enddate' AND res_status='checkedout'");
             return $result->result_array();
         }
     }
