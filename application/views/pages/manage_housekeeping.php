@@ -111,8 +111,8 @@ foreach($rooms as $item){
                         if($room['room_hk_status']=="for renovation"){
                             $label="<div style='background:lightblue; color:white; width:auto;'>$room[room_hk_status]</div>";
                         }
-                        $img=$room['room_image'];
-                        $button="<img src='data:image/jpg;charset=utf8;base64,".base64_encode($img)."' width='50' alt='Image'>";                        
+                        // $img=$room['room_image'];
+                        // $button="<img src='data:image/jpg;charset=utf8;base64,".base64_encode($img)."' width='50' alt='Image'>";                        
                         echo "<tr>";                            
                             echo "<td>$room[room_type] ($room[room_color])</td>";
                             echo "<td style='text-align:center;'>$room[room_fo_status]</td>";
