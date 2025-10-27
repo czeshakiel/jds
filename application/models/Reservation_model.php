@@ -248,7 +248,7 @@
             }
         }
         public function checkUser($username,$password){
-            $result=$this->db->query("SELECT * FROM user WHERE username='$username' AND `password`='$password' AND Access='1'");
+            $result=$this->db->query("SELECT * FROM user WHERE username='$username' AND `password`='$password' AND (Access='1' OR Access='2')");
             if($result->num_rows()>0){
                 return true;
             }else{
