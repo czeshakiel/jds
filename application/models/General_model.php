@@ -8,7 +8,7 @@ date_default_timezone_set('Asia/Manila');
             if($dept=="admin"){
                 $result=$this->db->query("SELECT * FROM `admin` WHERE username='$username' AND `password`='$password'");
             }else{
-                $result=$this->db->query("SELECT * FROM `user` WHERE username='$username' AND `password`='$password' AND dept='$dept'");
+                $result=$this->db->query("SELECT * FROM `user` WHERE username='$username' AND `password`='$password' AND (dept='$dept' OR Access='1')");
             }
             if($result->num_rows()>0){
                 return $result->row_array();
