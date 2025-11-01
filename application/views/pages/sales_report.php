@@ -67,6 +67,9 @@ if($this->session->flashdata('failed')){
             <?=form_close();?>
         </div>
     </div>
+    <?php
+    if($this->session->dept=="admin"){
+    ?>
     <div class="box col-lg-4 col-sm-12 col-md-6">                            
         <div class="box-inner">            
             <div class="box-header well">
@@ -101,4 +104,7 @@ if($this->session->flashdata('failed')){
             <?=form_close();?>
         </div>
     </div>
+    <?php
+    }
+    ?>
 </div>

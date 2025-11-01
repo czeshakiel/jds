@@ -8,7 +8,14 @@ if($this->session->dept=="admin"){
     $settings="";
     $addqty="";
     $notes="";
-}
+    $stocks="";
+    $room="";
+    $package="";
+    $depart="";
+    $users="";
+    $cinfo="";
+    $resrep="";
+}else
 if($this->session->dept=="FRONT OFFICE"){
     $dashboard="";
     $reservation="";
@@ -18,17 +25,14 @@ if($this->session->dept=="FRONT OFFICE"){
     $settings="style='display:none;'";
     $addqty="style='display:none;'";
     $notes="";
-}
-if($this->session->dept=="CAFE" || $this->session->dept=="FOOD KIOSK" || $this->session->dept=="SOUVENIR"){
-    $dashboard="style='display:none;'";
-    $reservation="style='display:none;'";
-    $housekeeping="style='display:none;'";
-    $fbs="";
-    $addqty="style='display:none;'";
-    $reports="style='display:none;'";
-    $settings="style='display:none;'";
-    $notes="style='display:none;'";
-}
+    $stocks="style='display:none;'";
+    $room="style='display:none;'";
+    $package="style='display:none;'";
+    $depart="style='display:none;'";
+    $users="style='display:none;'";
+    $cinfo="style='display:none;'";
+    $resrep="style='display:none;'";
+}else
 if($this->session->dept=="HOUSEKEEPING"){
     $dashboard="style='display:none;'";
     $reservation="style='display:none;'";
@@ -38,7 +42,48 @@ if($this->session->dept=="HOUSEKEEPING"){
     $settings="style='display:none;'";
     $addqty="style='display:none;'";
     $notes="style='display:none;'";
+    $stocks="style='display:none;'";
+    $room="style='display:none;'";
+    $package="style='display:none;'";
+    $depart="style='display:none;'";
+    $users="style='display:none;'";
+    $cinfo="style='display:none;'";
+    $resrep="style='display:none;'";
+}else
+if(($this->session->dept=="CAFE" || $this->session->dept=="FOOD KIOSK" || $this->session->dept=="SOUVENIR") && $this->session->access=="1"){
+    $dashboard="style='display:none;'";
+    $reservation="style='display:none;'";
+    $housekeeping="style='display:none;'";
+    $fbs="";
+    $addqty="";
+    $reports="";
+    $settings="";
+    $notes="style='display:none;'";
+    $stocks="";
+    $room="style='display:none;'";
+    $package="style='display:none;'";
+    $depart="style='display:none;'";
+    $users="style='display:none;'";
+    $cinfo="style='display:none;'";
+    $resrep="style='display:none;'";
+}else{
+    $dashboard="style='display:none;'";
+    $reservation="style='display:none;'";
+    $housekeeping="style='display:none;'";
+    $fbs="";
+    $addqty="style='display:none;'";
+    $reports="style='display:none;'";
+    $settings="style='display:none;'";
+    $notes="style='display:none;'";
+    $stocks="style='display:none;'";
+    $room="style='display:none;'";
+    $package="style='display:none;'";
+    $depart="style='display:none;'";
+    $users="style='display:none;'";
+    $cinfo="style='display:none;'";
+    $resrep="style='display:none;'";
 }
+
 ?>
 <div class="ch-container">
     <div class="row">
@@ -78,18 +123,18 @@ if($this->session->dept=="HOUSEKEEPING"){
                              <a href="#"><i class="glyphicon glyphicon-file"></i><span> Reports <?=$pen;?></span></a>
                              <ul class="nav nav-pills nav-stacked">
                                 <li><a href="<?=base_url('sales_report');?>">Sales Report</a></li>
-                                <li><a href="<?=base_url('booking_report');?>">Reservation Report</a></li>                              
+                                <li><a href="<?=base_url('booking_report');?>" <?=$resrep;?>>Reservation Report</a></li>                              
                             </ul>
                         </li>
                         <li class="accordion" <?=$settings;?>>
                             <a href="#"><i class="glyphicon glyphicon-cog"></i><span> Settings</span></a>
                             <ul class="nav nav-pills nav-stacked">
-                                <li><a href="<?=base_url('manage_room');?>">Rooms</a></li>
-                                <li><a href="<?=base_url('manage_package');?>">Packages</a></li>
-                                <li><a href="<?=base_url('manage_department');?>">Department</a></li>
-                                <li><a href="<?=base_url('manage_stocks');?>">Stocks</a></li>
-                                <li><a href="<?=base_url('manage_users');?>">Users</a></li>
-                                <li><a href="<?=base_url('manage_info');?>">Company Info</a></li>                                
+                                <li><a href="<?=base_url('manage_room');?>" <?=$room;?>>Rooms</a></li>
+                                <li><a href="<?=base_url('manage_package');?>" <?=$package;?>>Packages</a></li>
+                                <li><a href="<?=base_url('manage_department');?>" <?=$depart;?>>Department</a></li>
+                                <li><a href="<?=base_url('manage_stocks');?>" <?=$stocks;?>>Stocks</a></li>
+                                <li><a href="<?=base_url('manage_users');?>" <?=$users;?>>Users</a></li>
+                                <li><a href="<?=base_url('manage_info');?>" <?=$cinfo;?>>Company Info</a></li>                                
                             </ul>
                         </li>                        
                     </ul>                    

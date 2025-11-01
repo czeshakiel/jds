@@ -24,6 +24,7 @@ date_default_timezone_set('Asia/Manila');
                     'username' => $username,
                     'fullname' => $data['fullname'],
                     'dept' => $dept,
+                    'access' => $data['Access'],
                     'user_login' => true
                 );
                 $this->session->set_userdata($userdata);
@@ -383,7 +384,7 @@ date_default_timezone_set('Asia/Manila');
             }else{
                 $this->session->set_flashdata('failed','You are not authorized!');
             }
-            redirect(base_url('manage_reservation'));
+            redirect(base_url('manage_reservation/room'));
         }
         public function check_in(){
             $save=$this->Reservation_model->check_in();
@@ -878,15 +879,18 @@ date_default_timezone_set('Asia/Manila');
             $dept=$this->input->post('department');
             $category=$this->input->post('category');
             $data['info'] = $this->General_model->getSettings();
-            if($dept=="FRONT OFFICE" && $category=="book"){
+            if($dept=="FRONT OFFICE" && $category=="book" && $this->session->dept=="admin"){
                 $data['sales'] = array();
                 $data['sales_res'] = $this->Sales_model->getAllSalesByBooking($startdate,$enddate);
-            }else if($dept=="FRONT OFFICE" && $category=="final"){
+            }else if($dept=="FRONT OFFICE" && $category=="final" && $this->session->dept=="admin"){
                 $data['sales_res'] = $this->Sales_model->getAllSalesByCheckout($startdate,$enddate);
                 $data['sales'] = array();
             }else{
                 $data['sales'] = $this->Sales_model->getAllSalesByDept($dept,$category);
                 $data['sales_res'] = array();
+                if($dept=="FOOD KIOSK" || $dept=="SOUVENIR"){
+                    $page="generate_sales_report_cafe";
+                }
             }            
             $data['startdate'] = $startdate;
             $data['enddate'] = $enddate;

@@ -93,14 +93,14 @@
                                             $q="pointer-events: none; cursor: default;";
                                         }
                                 ?>
-                                <td style="text-align:center;" width="100">
+                                <td style="text-align:center; vertical-align:top;" width="100">
                                     <a href="<?=base_url('add_item/'.$item['code']);?>" style="text-decoration:none; color:black; <?=$disabled;?> <?=$q;?>">
-                                    <img src="data:image/jpg;charset=utf8;base64,<?=base64_encode($item['img']);?>" alt="Item" width="100"><br>                            
-                                    <b style="font-size:20px;"><?=$item['description'];?></b><br>P <?=number_format($item['sellingprice'],2);?><br>Quantity: <?=$item['quantity'];?></b>                                    
+                                    <img src="data:image/jpg;charset=utf8;base64,<?=base64_encode($item['img']);?>" alt="Item" style="width:10vw;"><br>                            
+                                    <b style="font-size:1.2em;"><?=$item['description'];?></b><br>P <b><?=number_format($item['sellingprice'],2);?></b><br>Qty: <b><?=$item['quantity'];?></b>                                    
                                     </a>
                                 </td>
                                 <?php
-                                if($x >= 5){echo "</tr>"; $x=1;}
+                                if($x >= 4){echo "</tr>"; $x=1;}
                                 $x++;
                                     }
                                 ?>  
@@ -170,7 +170,7 @@
                         </div>
                     </div>
                     <div class="box-content">
-                        <table class="table table-bordered bootstrap-datatable datatable responsive">
+                        <table class="table table-bordered bootstrap-datatable datatable">
                             <thead>
                                 <tr>
                                     <th style="text-align:center;">Description</th>

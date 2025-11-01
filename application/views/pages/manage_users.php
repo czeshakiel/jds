@@ -37,7 +37,8 @@ if($this->session->flashdata('failed')){
                         <th>Name</th>
                         <th>Username</th>
                         <th>Password</th>
-                        <th>Department</th>                       
+                        <th>Department</th>
+                        <th>Access</th>                       
                         <th width="20%">Action</th>
                     </tr>
                     </thead>
@@ -50,11 +51,12 @@ if($this->session->flashdata('failed')){
                                 echo "<td>$item[fullname]</td>";
                                 echo "<td>$item[username]</td>";
                                 echo "<td>$item[password]</td>";
-                                echo "<td>$item[dept]</td>";                           
+                                echo "<td>$item[dept]</td>";
+                                echo "<td>$item[Access]</td>";                           
                                 ?>
                                 <td>
                                     <a href="#" class="btn btn-warning btn-sm editUser" data-toggle="modal" data-target="#ManageUser" data-id="<?=$item['id'];?>_<?=$item['username'];?>_<?=$item['password'];?>_<?=$item['fullname'];?>_<?=$item['dept'];?>_<?=$item['Access'];?>"><i class="glyphicon glyphicon-edit"></i> Edit</a>
-                                    <a href="<?=base_url('delete_user/'.$item['id']);?>" class="btn btn-danger btn-sm" onclick="return confirm('Do you wish to delete this item?');return false;"><i class="glyphicon glyphicon-eye"></i> Delete</a>
+                                    <a href="<?=base_url('delete_users/'.$item['id']);?>" class="btn btn-danger btn-sm" onclick="return confirm('Do you wish to delete this item?');return false;"><i class="glyphicon glyphicon-eye"></i> Delete</a>
                                 </td>
                                 <?php
                             echo "</tr>";
