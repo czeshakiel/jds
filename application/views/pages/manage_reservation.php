@@ -181,7 +181,7 @@ if($this->session->flashdata('failed')){
                                 $color="";                            
                         }                       
                        if($room['res_date_depart']==date('Y-m-d')){
-                        $status="<span class='blink_text'>For Checkout</span>";
+                        $status="<span class='blink_text' style='color:black;'>For Checkout</span>";
                        }else{
                         $status="Checked In";
                        }
