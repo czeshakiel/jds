@@ -377,7 +377,7 @@ date_default_timezone_set('Asia/Manila');
             if($check){
                 $save=$this->Reservation_model->cancel_reservation($refno);
                 if($save){
-                    $this->session->set_flashdata('success','Reservation successfull cancelled!');
+                    $this->session->set_flashdata('success','Reservation successfully cancelled!');
                 }else{
                     $this->session->set_flashdata('failed','Unable to cancel reservation!');
                 }
@@ -385,6 +385,23 @@ date_default_timezone_set('Asia/Manila');
                 $this->session->set_flashdata('failed','You are not authorized!');
             }
             redirect(base_url('manage_reservation/room'));
+        }
+        public function undo_payment(){
+            $refno=$this->input->post('refno');
+            $username=$this->input->post('username');
+            $password=$this->input->post('password');
+            $check=$this->Reservation_model->checkUserPayment($username,$password);
+            if($check){
+                $save=$this->Reservation_model->undo_payment($refno);
+                if($save){
+                    $this->session->set_flashdata('success','Payment successfully cancelled!');
+                }else{
+                    $this->session->set_flashdata('failed','Unable to cancel payment!');
+                }
+            }else{
+                $this->session->set_flashdata('failed','You are not authorized!');
+            }
+            redirect(base_url('reservation_details/'.$refno));
         }
         public function check_in(){
             $save=$this->Reservation_model->check_in();
@@ -447,7 +464,7 @@ date_default_timezone_set('Asia/Manila');
             $refno=$this->input->post('refno');
             $username=$this->input->post('username');
             $password=$this->input->post('password');
-            $check=$this->Reservation_model->checkUser($username,$password);
+            $check=$this->Reservation_model->checkUserCharges($username,$password);
             if($check){
                 $save=$this->Reservation_model->delete_charges();
                 if($save){
@@ -966,7 +983,7 @@ date_default_timezone_set('Asia/Manila');
         }
         public function change_category($type){
             $this->session->unset_userdata('searchme');
-            $this->session->set_userdata('type',$type);
+            $this->session->set_userdata('type',str_replace('%20',' ',$type));
             redirect(base_url('point_of_sale'));
         }
         public function search_item(){

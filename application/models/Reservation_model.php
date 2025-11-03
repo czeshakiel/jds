@@ -192,9 +192,21 @@
                 return false;
             }
         }
+        public function undo_payment($id){
+            $result=$this->db->query("DELETE FROM reservation_details WHERE res_id='$id'");
+            if($result){
+                return true;
+            }else{
+                return false;
+            }
+        }
         public function check_in(){
             $id=$this->input->post('refno');
             $amount=$this->input->post('amount');
+            $totalamount=$this->input->post('totalamount');
+            if($totalamount < $amount){
+                $amount=$totalamount;
+            }
             $date=date('Y-m-d');
             $time=date('H:i:s');
             $fullname=$this->session->fullname;
@@ -249,6 +261,22 @@
         }
         public function checkUser($username,$password){
             $result=$this->db->query("SELECT * FROM user WHERE username='$username' AND `password`='$password' AND (Access='1' OR Access='2')");
+            if($result->num_rows()>0){
+                return true;
+            }else{
+                return false;
+            }
+        }
+        public function checkUserPayment($username,$password){            
+            $result=$this->db->query("SELECT * FROM user WHERE username='$username' AND `password`='$password' AND Access='1'");
+            if($result->num_rows()>0){
+                return true;
+            }else{
+                return false;
+            }
+        }
+        public function checkUserCharges($username,$password){
+            $result=$this->db->query("SELECT * FROM user WHERE username='$username' AND `password`='$password' AND (Access='1' OR Access='2' OR Access='3')");
             if($result->num_rows()>0){
                 return true;
             }else{

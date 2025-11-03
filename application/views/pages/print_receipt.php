@@ -1,4 +1,14 @@
-<div style="width:250px; font-family:Arial;">
+<style type="text/css">   
+    @media print {
+      #non-printable {
+        display: none;
+      }
+      #printable {
+        display: block;
+      }
+    }
+  </style>
+<div style="width:250px; font-family:Arial;" id="printable">
     <table width="100%" border="0" cellpadding="0" cellspacing="0">
         <tr>
             <td style="text-align:center;"><img src="data:image/jpg;charset=utf8;base64,<?=base64_encode($info['company_logo']);?>" width='150' height="75" alt='Image'></td>
@@ -159,3 +169,5 @@ imagedestroy($image);
     </tr>
 </table>
 </div>
+<br><br><br>
+<button type="button" onclick="window.print();" id="non-printable">Print Receipt</button>

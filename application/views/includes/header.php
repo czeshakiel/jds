@@ -67,6 +67,7 @@
             100% { opacity: 1.0; }
         }
     </style>
+    
 </head>
 
 <body>

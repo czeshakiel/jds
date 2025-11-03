@@ -93,9 +93,11 @@ if($reserve['room_type']==""){
         if($payment){
             $label="Print Invoice";
             $bill="style='display:none;'";
+            $undo="";
         }else{
             $bill="";
             $label="Print Final Bill";
+            $undo="style='display:none;'";
         }
         $disc=0;
                             if($reserve['res_no_guest_senior'] > 0){
@@ -111,7 +113,8 @@ if($reserve['room_type']==""){
                     <a href="#" class="btn btn-round btn-default addCharges" <?=$bill;?>  title="Add New Charges" data-toggle="modal" data-target="#AddCharges" data-id="<?=$refno;?>"><i class="glyphicon glyphicon-plus"></i> Add Charges</a>
                     <a href="<?=base_url('request_fbs/'.$refno);?>" <?=$bill;?> class="btn btn-round btn-default requestFBS" title="Food Request"><i class="glyphicon glyphicon-folder-close"></i> FBS Request</a>
                     <a href="#" class="btn btn-round btn-default billPayment" <?=$bill;?> title="Payment" data-toggle="modal" data-target="#BillPayment" data-id="<?=$refno;?>_<?=$other;?>_<?=$disc;?>"><i class="glyphicon glyphicon-folder-open"></i> Payment</a>
-                    <a href="<?=base_url('print_bill/'.$refno);?>" class="btn btn-round btn-default" title="Print Billing Statement" target="_blank"><i class="glyphicon glyphicon-print"></i> <?=$label;?></a>                    
+                    <a href="#" class="btn btn-round btn-danger undoPayment" <?=$undo;?> title="Cancel Payment" data-toggle="modal" data-target="#UndoPayment" data-id="<?=$refno;?>"><i class="glyphicon glyphicon-share"></i> Undo Payment</a>
+                    <a href="<?=base_url('print_bill/'.$refno);?>" class="btn btn-round btn-default" title="Print Billing Statement" target="_blank"><i class="glyphicon glyphicon-print"></i> <?=$label;?></a>
                 </div>              
             </div>
             <div class="box-content">

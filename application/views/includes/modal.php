@@ -1487,6 +1487,7 @@
         <div class="modal-content">
             <form role="form" action="<?=base_url('check_in');?>" method="POST" enctype="multipart/form-data"> 
                 <input type="hidden" name="refno" id="checkin_refno">                
+                <input type="hidden" name="totalamount" id="checkin_total_amount">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal">×</button>
                 <h3>Payment</h3>
@@ -1496,6 +1497,34 @@
                     <label for="exampleInputEmail1">Payment Amount</label>
                     <input type="text" name="amount" class="form-control"  id="checkin_balance">
                 </div>                               
+            </div>
+            <div class="modal-footer">
+                <a href="#" class="btn btn-default" data-dismiss="modal">Close</a>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="UndoPayment" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form role="form" action="<?=base_url('undo_payment');?>" method="POST" enctype="multipart/form-data"> 
+                <input type="hidden" name="refno" id="undo_refno">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">×</button>
+                <h3>Cancel Payment?</h3>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Username</label>
+                    <input type="text" name="username" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Password</label>
+                    <input type="password" name="password" class="form-control" required>
+                </div>
             </div>
             <div class="modal-footer">
                 <a href="#" class="btn btn-default" data-dismiss="modal">Close</a>

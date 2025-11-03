@@ -1,4 +1,14 @@
-<div style="width:250px; font-family:Arial;">
+<style type="text/css">   
+    @media print {
+      #non-printable {
+        display: none;
+      }
+      #printable {
+        display: block;
+      }
+    }
+  </style>
+<div style="width:250px; font-family:Arial;" id="printable">
    <?php
    $bar=0;
    $kitchen=0;
@@ -103,3 +113,5 @@
    }
    ?>
 </div>
+<br><br><br>
+<button type="button" onclick="window.print();" id="non-printable">Print Receipt</button>

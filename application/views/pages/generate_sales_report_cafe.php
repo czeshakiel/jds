@@ -1,3 +1,13 @@
+<style type="text/css">   
+    @media print {
+      #non-printable {
+        display: none;
+      }
+      #printable {
+        display: block;
+      }
+    }
+  </style>
 <div style="width:250px; font-family:Arial;">
     <table width="100%" border="0" cellpadding="0" cellspacing="0">
         <tr>
@@ -84,3 +94,5 @@
     </tr>
 </table>
 </div>
+<br><br><br>
+<button type="button" onclick="window.print();" id="non-printable">Print Receipt</button>

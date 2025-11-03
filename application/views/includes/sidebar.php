@@ -50,7 +50,7 @@ if($this->session->dept=="HOUSEKEEPING"){
     $cinfo="style='display:none;'";
     $resrep="style='display:none;'";
 }else
-if(($this->session->dept=="CAFE" || $this->session->dept=="FOOD KIOSK" || $this->session->dept=="SOUVENIR") && $this->session->access=="1"){
+if(($this->session->dept=="CAFE" || $this->session->dept=="FOOD KIOSK" || $this->session->dept=="SOUVENIR") && ($this->session->access=="2" || $this->session->access=="1")){
     $dashboard="style='display:none;'";
     $reservation="style='display:none;'";
     $housekeeping="style='display:none;'";

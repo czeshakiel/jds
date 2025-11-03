@@ -308,12 +308,17 @@
         var id=$(this).data('id');
         document.getElementById("cancel_refno").value=id;
     });
+    $('.undoPayment').click(function(){
+        var id=$(this).data('id');
+        document.getElementById("undo_refno").value=id;
+    });
 
     $('.checkIn').click(function(){
         var data=$(this).data('id');
         var id=data.split('_');
         document.getElementById("checkin_refno").value=id[0];
         document.getElementById('checkin_balance').value=id[1];
+        document.getElementById('checkin_total_amount').value=id[1];
     });
 
     function viewStat(value){
