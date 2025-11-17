@@ -71,13 +71,32 @@
         $disc=0;
         $disc1=0;
         $paid1=0;
+        $weekend=0;
+        $weekday=0;
+        $query=$this->db->query("SELECT * FROM room WHERE id='$reserve[res_room_id]'");
+        $r=$query->row_array();
+
+        $room_weekend=$r['room_rate_weekend'];
+        $room_weekday=$r['room_rate_weekday'];
+        if($reserve['res_no_nights'] > 1){
+            for($w=0;$w<$reserve['res_no_nights'];$w++){
+                if(date('w',strtotime($w.' day',strtotime($reserve['res_date_arrive']))) == 5 || date('w',strtotime($w.' day',strtotime($reserve['res_date_arrive']))) == 6 || date('w',strtotime($w.' day',strtotime($reserve['res_date_arrive'])))==0){
+                $weekend +=$room_weekend;
+                }
+                if(date('w',strtotime($w.' day',strtotime($reserve['res_date_arrive']))) >= 1 && date('w',strtotime($w.' day',strtotime($reserve['res_date_arrive']))) <= 4){
+                $weekday +=$room_weekday;
+                }
+            }
+        }else{
+            $weekday = $reserve['res_room_rate'];       
+        }
         if($payment){
             $paid=$payment['res_amount_paid'];
             $disc=$payment['res_amount_due'];
         }
         if($checkin){
             $paid1=$checkin['amount'];
-            $disc1=$reserve['res_room_rate']-$reserve['res_downpayment']-$checkin['amount'];
+            $disc1=($weekend+$weekday)-$reserve['res_downpayment']-$checkin['amount'];
         }
         ?>        
         <tr style="border-top:1px solid black;">

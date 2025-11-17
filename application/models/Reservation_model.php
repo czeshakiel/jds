@@ -151,9 +151,22 @@
             $downpayment=$this->input->post('downpayment');
             $paymentmode=$this->input->post('paymentmode');
             $date=date('Y-m-d');
-            $time=date('H:i:s');            
+            $time=date('H:i:s');       
+            $datetime1 = new DateTime($arrival_date);
+            $datetime2 = new DateTime($departure_date);
+            $interval = $datetime1->diff($datetime2);
+            $no_night=$interval->days;     
             $loginuser=$this->session->fullname;
-            $result=$this->db->query("UPDATE reservation SET res_fullname='$fullname',res_address='$address',res_contactno='$contactno',res_email='$email',res_nationality='$nationality',res_date_arrive='$arrival_date',res_time_arrive='$arrival_time',res_date_depart='$departure_date',res_time_depart='$departure_time',res_no_guest_adult='$adult',res_no_guest_child='$child',res_no_guest_senior='$senior',res_downpayment='$downpayment',res_status='booked',res_user='$loginuser',res_source='$source',res_mode_payment='$paymentmode' WHERE res_id='$refno'");
+            $query=$this->db->query("SELECT r.* FROM room r INNER JOIN reservation re ON re.res_room_id=r.id WHERE res_id='$refno'");
+            $r=$query->row_array();
+            if(date('w',strtotime($arrival_date)) >= 1 && date('w',strtotime($arrival_date)) <= 4){
+                $room_rate=$r['room_rate_weekday'];
+            }else if(date('w',strtotime($arrival_date)) == 5 || date('w',strtotime($arrival_date)) == 6 || date('w',strtotime($arrival_date)) == 0){
+                $room_rate=$r['room_rate_weekend'];
+            }else{
+                $room_rate=0;
+            }
+            $result=$this->db->query("UPDATE reservation SET res_fullname='$fullname',res_address='$address',res_contactno='$contactno',res_email='$email',res_nationality='$nationality',res_date_arrive='$arrival_date',res_time_arrive='$arrival_time',res_date_depart='$departure_date',res_time_depart='$departure_time',res_no_guest_adult='$adult',res_no_guest_child='$child',res_no_guest_senior='$senior',res_downpayment='$downpayment',res_status='booked',res_user='$loginuser',res_source='$source',res_mode_payment='$paymentmode',res_no_nights='$no_night',res_room_rate='$room_rate' WHERE res_id='$refno'");
             if($result){
                 return true;
             }else{

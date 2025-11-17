@@ -73,11 +73,30 @@ if($this->session->flashdata('failed')){
                                 $regform="";
                                 $edit="style='display:none;'";
                             }
+                            $weekend=0;
+                            $weekday=0;
+                            $query=$this->db->query("SELECT * FROM room WHERE id='$room[res_room_id]'");
+                            $r=$query->row_array();
 
-                            $balance=$room['res_room_rate']-$room['res_downpayment'];
+                            $room_weekend=$r['room_rate_weekend'];
+                            $room_weekday=$r['room_rate_weekday'];
+                            if($room['res_no_nights'] > 1){
+                                for($w=0;$w<$room['res_no_nights'];$w++){
+                                    if(date('w',strtotime($w.' day',strtotime($room['res_date_arrive']))) == 5 || date('w',strtotime($w.' day',strtotime($room['res_date_arrive']))) == 6 || date('w',strtotime($w.' day',strtotime($room['res_date_arrive'])))==0){
+                                    $weekend +=$room_weekend;
+                                    }
+                                    if(date('w',strtotime($w.' day',strtotime($room['res_date_arrive']))) >= 1 && date('w',strtotime($w.' day',strtotime($room['res_date_arrive']))) <= 4){
+                                    $weekday +=$room_weekday;
+                                    }
+                                }
+                            }else{
+                            $weekday = $room['res_room_rate'];       
+                            }
+                            $balance=($weekday+$weekend)-$room['res_downpayment'];
+
                             if($room['res_no_guest_senior'] > 0){
                                 $totalpax=$room['res_no_guest_adult']+$room['res_no_guest_child']+$room['res_no_guest_senior'];
-                                $person=$room['res_room_rate']/$totalpax;
+                                $person=($weekday+$weekend)/$totalpax;
                                 $disc=($person*.20)*$room['res_no_guest_senior'];
                                 $balance=$balance-$disc;
                             }
