@@ -40,11 +40,22 @@
     $day=0;
     $day1="";
     $day2="";
-    $query=$this->db->query("SELECT * FROM room WHERE id='$reserve[res_room_id]'");
-    $r=$query->row_array();
+    $description="";
 
-    $room_weekend=$r['room_rate_weekend'];
-    $room_weekday=$r['room_rate_weekday'];
+       
+        if($reserve['res_date_arrive']==$reserve['res_date_depart']){
+            $query=$this->db->query("SELECT * FROM package WHERE id='$reserve[res_room_id]'");
+            $r=$query->row_array();
+            $room_weekday=$r['rate'];
+            $room_weekend=$r['rate'];
+            $room_type=$r['description'];
+        }else{
+            $query=$this->db->query("SELECT * FROM room WHERE id='$reserve[res_room_id]'");
+            $r=$query->row_array();
+            $room_weekday=$r['room_rate_weekday'];
+             $room_weekend=$r['room_rate_weekend'];
+             $room_type=$r['room_type']." - ".$r['room_color'];
+        }  
     //if($reserve['res_no_nights'] > 1){
         for($w=0;$w<$reserve['res_no_nights'];$w++){
             if(date('w',strtotime($w.' day',strtotime($reserve['res_date_arrive']))) == 5 || date('w',strtotime($w.' day',strtotime($reserve['res_date_arrive']))) == 6 || date('w',strtotime($w.' day',strtotime($reserve['res_date_arrive'])))==0){

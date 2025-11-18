@@ -101,6 +101,9 @@
             $datetime2 = new DateTime($departure_date);
             $interval = $datetime1->diff($datetime2);
             $no_night=$interval->days;
+            if($no_night==0){
+                $no_night=1;
+            }
             $loginuser=$this->session->fullname;
             $query=$this->db->query("SELECT * FROM package WHERE id='$room_id'");
             $r=$query->row_array();           
