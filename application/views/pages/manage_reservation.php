@@ -75,28 +75,32 @@ if($this->session->flashdata('failed')){
                             }
                             $weekend=0;
                             $weekday=0;
+                            $end=0;
+                            $day=0;
                             $query=$this->db->query("SELECT * FROM room WHERE id='$room[res_room_id]'");
                             $r=$query->row_array();
 
                             $room_weekend=$r['room_rate_weekend'];
                             $room_weekday=$r['room_rate_weekday'];
-                            if($room['res_no_nights'] > 1){
+                            //if($room['res_no_nights'] > 1){
                                 for($w=0;$w<$room['res_no_nights'];$w++){
                                     if(date('w',strtotime($w.' day',strtotime($room['res_date_arrive']))) == 5 || date('w',strtotime($w.' day',strtotime($room['res_date_arrive']))) == 6 || date('w',strtotime($w.' day',strtotime($room['res_date_arrive'])))==0){
-                                    $weekend +=$room_weekend;
+                                    $weekend =$room_weekend;
+                                    $end++;               
                                     }
                                     if(date('w',strtotime($w.' day',strtotime($room['res_date_arrive']))) >= 1 && date('w',strtotime($w.' day',strtotime($room['res_date_arrive']))) <= 4){
-                                    $weekday +=$room_weekday;
+                                    $weekday =$room_weekday;
+                                    $day++;
                                     }
                                 }
-                            }else{
-                            $weekday = $room['res_room_rate'];       
-                            }
-                            $balance=($weekday+$weekend)-$room['res_downpayment'];
+                            // }else{
+                            // $weekday = $room['res_room_rate'];       
+                            // }
+                            $balance=(($weekday*$day)+($weekend*$end))-$room['res_downpayment'];
 
                             if($room['res_no_guest_senior'] > 0){
                                 $totalpax=$room['res_no_guest_adult']+$room['res_no_guest_child']+$room['res_no_guest_senior'];
-                                $person=($weekday+$weekend)/$totalpax;
+                                $person=(($weekday*$day)+($weekend*$end))/$totalpax;
                                 $disc=($person*.20)*$room['res_no_guest_senior'];
                                 $balance=$balance-$disc;
                             }

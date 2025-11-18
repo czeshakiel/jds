@@ -36,24 +36,31 @@
     }
     $weekend=0;
     $weekday=0;
+    $end=0;
+    $day=0;
+    $day1="";
+    $day2="";
     $query=$this->db->query("SELECT * FROM room WHERE id='$reserve[res_room_id]'");
     $r=$query->row_array();
 
     $room_weekend=$r['room_rate_weekend'];
     $room_weekday=$r['room_rate_weekday'];
-    if($reserve['res_no_nights'] > 1){
+    //if($reserve['res_no_nights'] > 1){
         for($w=0;$w<$reserve['res_no_nights'];$w++){
             if(date('w',strtotime($w.' day',strtotime($reserve['res_date_arrive']))) == 5 || date('w',strtotime($w.' day',strtotime($reserve['res_date_arrive']))) == 6 || date('w',strtotime($w.' day',strtotime($reserve['res_date_arrive'])))==0){
-               $weekend +=$room_weekend;
+               $weekend =$room_weekend;
+               $end++;               
             }
             if(date('w',strtotime($w.' day',strtotime($reserve['res_date_arrive']))) >= 1 && date('w',strtotime($w.' day',strtotime($reserve['res_date_arrive']))) <= 4){
-               $weekday +=$room_weekday;
+               $weekday =$room_weekday;
+               $day++;
             }
         }
-    }else{
-       $weekday = $reserve['res_room_rate'];       
-    }
-
+    // }else{
+    //    $weekday = $reserve['res_room_rate'];       
+    // }
+    $rate1=$end." Night(s) @ ".number_format($weekend,2);
+    $rate2=$day." Night(s) @ ".number_format($weekday,2);
     ?>
     <table width="100%" border="0" style="border-collapse:collapse;" cellpadding="1" cellspacing="0">
         <tr style="border-top:1px solid black; border-bottom:1px solid black;">
@@ -66,7 +73,7 @@
         <tr>
             <td valign="top"><?=$reserve['res_id'];?></td>
             <td valign="top"><b><?=$room_type;?></b><br><?=date('d-M-Y',strtotime($reserve['res_date_arrive']));?> to <?=date('d-M-Y',strtotime($reserve['res_date_depart']));?></td>
-            <td valign="top"><b><?=$reserve['res_no_nights'];?> Night(s) @ <?=number_format($weekday+$weekend,2);?></b><br><font style="font-size:14px;"><?=$reserve['res_no_guest_adult'];?> Adult / <?=$reserve['res_no_guest_child'];?> Child /<?=$reserve['res_no_guest_senior'];?> Senior/PWD</font></td>
+            <td valign="top"><b><?=$rate1;?></b><br><b><?=$rate2;?></b><br><font style="font-size:14px;"><?=$reserve['res_no_guest_adult'];?> Adult / <?=$reserve['res_no_guest_child'];?> Child /<?=$reserve['res_no_guest_senior'];?> Senior/PWD</font></td>
             <td valign="top" align="center">1</td>
             <?php
             if($reserve['res_no_nights']=="0"){
@@ -75,7 +82,7 @@
                 $no=$reserve['res_no_nights'];
             }            
             ?>
-            <td valign="top" align="right"><?=number_format($weekday+$weekend,2);?></td>
+            <td valign="top" align="right"><?=number_format(($weekday*$day)+($weekend*$end),2);?></td>
         </tr>
         <tr style="border-top:1px solid black;">
             <td colspan="5">&nbsp;</td>            
@@ -84,7 +91,7 @@
         <table width="100%" border="0">
             <tr>
                 <td align="right" width="80%"><b>Amount Due:</b></td>
-                <td align="right"><b><?=number_format($weekday+$weekend,2);?></b></td>
+                <td align="right"><b><?=number_format(($weekday*$day)+($weekend*$end),2);?></b></td>
             </tr>
             <tr>
                 <td align="right" width="80%"><b>Downpayment:</b></td>
@@ -92,7 +99,7 @@
             </tr>
             <tr>
                 <td align="right" width="80%"><b>Total Amount:</b></td>
-                <td align="right"><b><?=number_format(($weekday+$weekend)-$reserve['res_downpayment'],2);?></b></td>
+                <td align="right"><b><?=number_format(($weekday*$day)+($weekend*$end)-$reserve['res_downpayment'],2);?></b></td>
             </tr>
         </table>
 </div>

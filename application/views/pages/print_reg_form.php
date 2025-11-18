@@ -42,13 +42,39 @@ if($reserve['res_mode_payment']=="credit"){
             <td colspan="2"><b>ADDRESS: </b> <?=$reserve['res_address'];?></td>
         </tr>        
     </table>
+    <?php
+    $weekend=0;
+    $weekday=0;
+    $end=0;
+    $day=0;
+    $day1="";
+    $day2="";
+    $query=$this->db->query("SELECT * FROM room WHERE id='$reserve[res_room_id]'");
+    $r=$query->row_array();
+
+    $room_weekend=$r['room_rate_weekend'];
+    $room_weekday=$r['room_rate_weekday'];
+    //if($reserve['res_no_nights'] > 1){
+        for($w=0;$w<$reserve['res_no_nights'];$w++){
+            if(date('w',strtotime($w.' day',strtotime($reserve['res_date_arrive']))) == 5 || date('w',strtotime($w.' day',strtotime($reserve['res_date_arrive']))) == 6 || date('w',strtotime($w.' day',strtotime($reserve['res_date_arrive'])))==0){
+               $weekend =$room_weekend;
+               $end++;               
+            }
+            if(date('w',strtotime($w.' day',strtotime($reserve['res_date_arrive']))) >= 1 && date('w',strtotime($w.' day',strtotime($reserve['res_date_arrive']))) <= 4){
+               $weekday =$room_weekday;
+               $day++;
+            }
+        }
+        $rate1=$end." Night(s) @ ".number_format($weekend,2);
+        $rate2=$day." Night(s) @ ".number_format($weekday,2);
+    ?>
     <table width="100%" border="1" style="border-collapse:collapse;" cellpadding="1" cellspacing="0">
         <tr>
             <td align="center" colspan="3"><h4><b style="color:red;">STAY INFORMATION</b></h4></td>
         </tr>
         <tr style="height:30px;">
             <td width="40%"><b>NO. OF NIGHTS: </b> <?=$reserve['res_no_nights'];?></td>
-            <td width="25%"><b>RATE: </b> <?=number_format($reserve['res_room_rate'],2);?></td>
+            <td width="25%"><b>RATE: </b> <br><font style="font-size: 12px;"><?=$rate1;?> <br> <?=$rate2;?> </font></td>
             <td width="35%"><b>NO. OF GUEST: <br></b> <?=$reserve['res_no_guest_adult'];?> Adult / <?=$reserve['res_no_guest_child'];?> Child / <?=$reserve['res_no_guest_senior'];?> Senior/PWD</td>
         </tr>
         <tr style="height:30px;">
