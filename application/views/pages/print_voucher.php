@@ -72,10 +72,10 @@
     // }
     $rate1="";$rate2="";
     if($end > 0){
-        $rate1=$end." Night(s) @ ".number_format($weekend,2);
+        $rate1=$end." Night(s) @ ".number_format($weekend,2)."<br>";
     }
     if($day > 0){
-        $rate2=$day." Night(s) @ ".number_format($weekday,2);
+        $rate2=$day." Night(s) @ ".number_format($weekday,2)."<br>";
     }        
     ?>
     <table width="100%" border="0" style="border-collapse:collapse;" cellpadding="1" cellspacing="0">
@@ -89,7 +89,7 @@
         <tr>
             <td valign="top"><?=$reserve['res_id'];?></td>
             <td valign="top"><b><?=$room_type;?></b><br><?=date('d-M-Y',strtotime($reserve['res_date_arrive']));?> to <?=date('d-M-Y',strtotime($reserve['res_date_depart']));?></td>
-            <td valign="top"><b><?=$rate1;?></b><br><b><?=$rate2;?></b><br><font style="font-size:14px;"><?=$reserve['res_no_guest_adult'];?> Adult / <?=$reserve['res_no_guest_child'];?> Child /<?=$reserve['res_no_guest_senior'];?> Senior/PWD</font></td>
+            <td valign="top"><b><?=$rate1;?><?=$rate2;?></b><br><font style="font-size:14px;"><?=$reserve['res_no_guest_adult'];?> Adult / <?=$reserve['res_no_guest_child'];?> Child /<?=$reserve['res_no_guest_senior'];?> Senior/PWD</font></td>
             <td valign="top" align="center">1</td>
             <?php
             if($reserve['res_no_nights']=="0"){
