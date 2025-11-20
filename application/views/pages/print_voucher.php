@@ -70,8 +70,13 @@
     // }else{
     //    $weekday = $reserve['res_room_rate'];       
     // }
-    $rate1=$end." Night(s) @ ".number_format($weekend,2);
-    $rate2=$day." Night(s) @ ".number_format($weekday,2);
+    $rate1="";$rate2="";
+    if($end > 0){
+        $rate1=$end." Night(s) @ ".number_format($weekend,2);
+    }
+    if($day > 0){
+        $rate2=$day." Night(s) @ ".number_format($weekday,2);
+    }        
     ?>
     <table width="100%" border="0" style="border-collapse:collapse;" cellpadding="1" cellspacing="0">
         <tr style="border-top:1px solid black; border-bottom:1px solid black;">
