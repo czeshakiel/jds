@@ -95,7 +95,7 @@
                 $no=$reserve['res_no_nights'];
             }            
             ?>
-            <td valign="top" align="right"><?=number_format($no*$reserve['res_room_rate'],2);?></td>
+            <td valign="top" align="right"><?=number_format(($weekend*$end)+($weekday*$day),2);?></td>
         </tr>
         <tr>
             <td></td>
