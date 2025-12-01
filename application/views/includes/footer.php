@@ -357,6 +357,144 @@
     setInterval(updateClock, 1000);
 </script>
 
+<script>
+document.addEventListener('keydown', function(event) {
+  // Example 1: Single key shortcut (e.g., 'm')
+  if (event.key === 'F1') {
+    event.preventDefault(); // Prevent default browser behavior (e.g., searching)
+    const refno = "<?=$this->session->refno;?>";
+    if(refno==""){        
+        window.location = "<?=base_url('new_transaction');?>";
+    }else{
+        <?php
+        if($tender){
+        ?>
+        window.location = "<?=base_url('new_transaction');?>";
+        <?php
+        }
+        ?>
+    }
+    const searchme = document.getElementById("searchme");
+    searchme.focus();
+    // Perform your desired action here
+  }
+  if (event.key === 'F12') {
+    event.preventDefault(); // Prevent default browser behavior (e.g., searching)
+    if (confirm('Do you wish to cancel this transaction?')){
+        window.location = "<?=base_url('cancel_transaction/'.$this->session->refno);?>";
+    }else{
+        return false;
+    }
+    const searchme = document.getElementById("searchme");
+    searchme.focus();
+    // Perform your desired action here
+  }
 
+  if (event.key === 'F3') {
+    event.preventDefault(); // Prevent default browser behavior (e.g., searching)    
+    window.open("<?=base_url('print_receipt/'.$this->session->refno);?>","_blank");    
+    const searchme = document.getElementById("searchme");
+    searchme.focus();
+    // Perform your desired action here
+  }
+  if (event.key === 'F4') {
+    event.preventDefault(); // Prevent default browser behavior (e.g., searching)    
+    window.open("<?=base_url('print_order_slip/'.$this->session->refno);?>","_blank");    
+    const searchme = document.getElementById("searchme");
+    searchme.focus();
+    // Perform your desired action here
+  }
+
+  if (event.ctrlKey && event.key === 'r') {
+    event.preventDefault(); // Prevent default browser behavior (e.g., searching)
+    window.location = "<?=base_url('change_category/all');?>";
+    document.getElementsByTagName("img")[0].focus();
+    // Perform your desired action here
+  }
+  if (event.key === 'F2') {
+    event.preventDefault(); // Prevent default browser behavior (e.g., searching)
+    const searchme = document.getElementById("searchme");
+    searchme.focus();
+    // Perform your desired action here
+  }
+
+  if (event.key === 'ArrowDown') {
+    event.preventDefault(); // Prevent default browser scrolling behavior
+
+    const currentActiveElement = document.activeElement;
+    if (currentActiveElement && currentActiveElement.tabIndex !== undefined) {
+      const allFocusableElements = Array.from(document.querySelectorAll('[tabindex]')).sort((a, b) => a.tabIndex - b.tabIndex);
+      const currentIndex = allFocusableElements.indexOf(currentActiveElement);
+
+      if (currentIndex !== -1 && currentIndex < allFocusableElements.length - 1) {
+        allFocusableElements[currentIndex + 1].focus();
+      } else if (currentIndex === allFocusableElements.length - 1) {
+        // Loop back to the first element if at the end
+        allFocusableElements[0].focus();
+      }
+    }
+  }
+
+  if (event.key === 'ArrowUp') {
+    event.preventDefault(); // Prevent default browser scrolling behavior
+
+    const currentActiveElement = document.activeElement;
+    if (currentActiveElement && currentActiveElement.tabIndex !== undefined) {
+      const allFocusableElements = Array.from(document.querySelectorAll('[tabindex]')).sort((a, b) => a.tabIndex - b.tabIndex);
+      const currentIndex = allFocusableElements.indexOf(currentActiveElement);
+
+      if (currentIndex !== 1 && currentIndex < allFocusableElements.length + 1) {
+        allFocusableElements[currentIndex - 1].focus();
+      } else if (currentIndex === allFocusableElements.length + 1) {
+        // Loop back to the first element if at the end
+        allFocusableElements[0].focus();
+      }
+    }
+  }
+
+  // Example 2: Modifier key combination (e.g., Ctrl + B)
+  if (event.ctrlKey && event.key === 'd') {
+    event.preventDefault();
+    $('.proceedPayment').click();
+    // Perform your desired action here
+  }
+
+   if (event.ctrlKey && event.key === 'f') {
+    event.preventDefault();
+    $('.addDiscount').click();
+    // Perform your desired action here
+  }
+
+  if (event.ctrlKey && event.key === 'z') {
+    event.preventDefault();
+    if(confirm('Do you wish to remove all dicount?')){
+        window.location = "<?=base_url('remove_all_discount/'.$refno);?>";
+    }else{
+        return false;
+    }
+    // Perform your desired action here
+  }
+
+  // Example 3: Multiple modifier keys (e.g., Ctrl + Alt + Y)
+  if (event.ctrlKey && event.altKey && event.key === 'y') {
+    event.preventDefault();
+    console.log('Ctrl + Alt + Y was pressed!');
+    // Perform your desired action here
+  }
+
+  // Example 4: Handling arrow keys with a modifier (e.g., Alt + Right Arrow)
+  if (event.altKey && event.code === 'ArrowRight') {
+    event.preventDefault();
+    console.log('Alt + Right Arrow was pressed!');
+    // Perform your desired action here
+  }
+});
+
+// $('.searchitem').submit(function(){
+//         document.getElementsByTagName("img")[0].focus();
+//         //alert(order);
+//         //order.focus();
+//    });
+</script>
 </body>
 </html>

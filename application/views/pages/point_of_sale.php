@@ -19,9 +19,11 @@
         $disabled="pointer-events: none; cursor: default;";
         $cancel="style='display:none;'";
         $new="";
+        $focus="readonly";
     }else{
         $cancel="";
-        $new="style='display:none;'";
+        $new="style='display:none;'";        
+        $focus="";
     }
     if($tender){
         $disabled="pointer-events: none; cursor: default;";
@@ -42,9 +44,9 @@
 
                     <div style="float:right;">
                         <a href="<?=base_url('new_transaction');?>" class="btn btn-round btn-primary btn-sm" <?=$new;?>><i
-                                class="glyphicon glyphicon-plus"></i> New Transaction</a>                        
+                                class="glyphicon glyphicon-plus"></i> New Transaction (F1)</a>                        
                         <a href="<?=base_url('cancel_transaction/'.$refno);?>" class="btn btn-danger btn-round btn-sm" <?=$cancel;?> onclick="return confirm('Do you wish to cancel this transaction?'); return false;"><i
-                                class="glyphicon glyphicon-remove"></i> Cancel Transaction</a>
+                                class="glyphicon glyphicon-remove"></i> Cancel Transaction (F12)</a>
                                 
                     </div>
                 </div>
@@ -58,33 +60,37 @@
                             //}
                             ?>
                     </ul> -->
-                    <?=form_open(base_url('search_item'));?>
-                                    <input type="text" name="searchme" class="form-control" required placeholder="Search Item">
+                    <?=form_open(base_url('search_item'),array('class' => 'searchitem'));?>
+                                    <input type="text" name="searchme" class="form-control" required placeholder="Search Item" id="searchme" <?=$focus;?>>
                                 <?=form_close();?>
                                 <br>
                     <ul class="breadcrumb">
                         <li>
-                            <a href="<?=base_url('change_category/all');?>">All</a>
+                            <a href="#">Refresh (Ctrl + R) | Search (F2)</a>
                         </li>
                         <?php
-                            foreach($type as $cat){
-                        ?>
-                            <li><a href="<?=base_url('change_category/'.$cat['category']);?>"><?=$cat['category'];?></a></li>                       
-                        <?php
-                            }
-                            ?>
+                       //$w=2;
+                        //     foreach($type as $cat){
+                        // ?>
+                        <!-- //     <li><a href="<?=base_url('change_category/'.$cat['category']);?>"><?=$cat['category'];?> (<?=$w;?>)</a></li>                        -->
+                         <?php
+                        //     $w++;
+                        //     }
+                        //     ?>
                     </ul>
-                    <!-- <div id="myTabContent" class="tab-content"> -->
-                        <table width="100%" border="0">
-                        <?php                        
+                    <!-- <div id="myTabContent" class="tab-content"> -->   
+                        <div style="height:500px; overflow-y: auto;">                     
+                        <table class="table table-striped table-bordered">
+                        <?php            
+                                   $w=1; 
                             foreach($category as $cat){
                             
                         ?>                       
                         <!-- <div class="tab-pane" id="<?=$cat['category'];?>">                                                         -->
                             
-                                <tr>
+                                <tbody style="overflow:scroll;">
                                 <?php
-                                    $x=1;
+                                    $x=1;                                    
                                     $items=$this->Sales_model->getItemByCategory($this->session->type);
                                     foreach($items as $item){
                                         if($item['quantity']>0){
@@ -92,26 +98,33 @@
                                         }else{
                                             $q="pointer-events: none; cursor: default;";
                                         }
-                                ?>
-                                <td style="text-align:center; vertical-align:top;" width="100">
-                                    <a href="<?=base_url('add_item/'.$item['code']);?>" style="text-decoration:none; color:black; <?=$disabled;?> <?=$q;?>">
-                                    <img src="data:image/jpg;charset=utf8;base64,<?=base64_encode($item['img']);?>" alt="Item" style="width:10vw;"><br>                            
-                                    <b style="font-size:1.2em;"><?=$item['description'];?></b><br>P <b><?=number_format($item['sellingprice'],2);?></b><br>Qty: <b><?=$item['quantity'];?></b>                                    
-                                    </a>
-                                </td>
+                                ?>                                
+                                <tr>                                    
+                                     
+                                    <td style="text-align:left; vertical-align:top;" width="100" >
+                                       <a href="<?=base_url('add_item/'.$item['code']);?>" style="text-decoration:none; color:black; <?=$disabled;?> <?=$q;?>">
+                                        <img src="data:image/jpg;charset=utf8;base64,<?=base64_encode($item['img']);?>" alt="Item" style="width:10vw;" name="img" tabindex="<?=$w;?>">
+                                    </td>
+                                        <td>
+                                        <b style="font-size:1.2em;"><?=$item['description'];?></b><br>P <b><?=number_format($item['sellingprice'],2);?></b><br>Qty: <b><?=$item['quantity'];?></b>                                                                        
+                                        </a>
+                                    </td>                                                                        
+                                </tr>    
+
                                 <?php
                                 if($x >= 4){echo "</tr>"; $x=1;}
-                                $x++;
+                                $x++;                                
                                     }
-                                ?>  
-                                </tr>      
-                            
+                                    $w++;
+                                    
+                                ?>                                        
+                            </tbody>
                         <!-- </div>   -->
-                        <?php
+                        <?php                        
                             }
                             ?>  
                             </table>                
-                    <!-- </div>                     -->
+                    </div>                    
                 </div>
             </div>
         </div>
@@ -158,15 +171,15 @@
 
                         <div style="float:right;">
                             <a href="#" class="btn btn-round btn-primary btn-sm proceedPayment" <?=$proceed;?> data-toggle="modal" data-target="#ProceedPayment" data-id="<?=$refno;?>"><i
-                                    class="glyphicon glyphicon-share"></i> Proceed</a>
+                                    class="glyphicon glyphicon-share"></i> Proceed (Ctrl + D)</a>
                             <a href="<?=base_url('print_receipt/'.$refno);?>" class="btn btn-round btn-success btn-sm" <?=$print;?> target="_blank"><i
-                                    class="glyphicon glyphicon-print"></i> Print Receipt</a>
+                                    class="glyphicon glyphicon-print"></i> Print Receipt (F3)</a>
                                     <a href="<?=base_url('print_order_slip/'.$refno);?>" class="btn btn-round btn-primary btn-sm" <?=$print;?> target="_blank"><i
-                                    class="glyphicon glyphicon-print"></i> Print Slip</a>
+                                    class="glyphicon glyphicon-print"></i> Print Slip (F4)</a>
                             <a href="#" class="btn btn-round btn-warning btn-sm addDiscount" data-toggle="modal" data-target="#AddDiscount" data-id="<?=$refno;?>" <?=$discount;?>><i
-                                    class="glyphicon glyphicon-plus"></i> Add Discount</a>
-                            <a href="<?=base_url('remove_all_discount/'.$refno);?>" class="btn btn-round btn-info btn-sm" <?=$viewdisc;?> onclick="return confirm('Do you wish to remove all dicount?'); return false;"><i
-                                    class="glyphicon glyphicon-minus"></i> Remove All Discount</a>
+                                    class="glyphicon glyphicon-plus"></i> Add Discount (Ctrl + F)</a>
+                            <a href="<?=base_url('remove_all_discount/'.$refno);?>" class="btn btn-round btn-info btn-sm removealldisc" <?=$viewdisc;?> onclick="return confirm('Do you wish to remove all dicount?'); return false;"><i
+                                    class="glyphicon glyphicon-minus"></i> Remove All Discount (Ctrl + Z)</a>
                         </div>
                     </div>
                     <div class="box-content">

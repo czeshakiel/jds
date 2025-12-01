@@ -914,7 +914,7 @@
 </div>
 
 
-<div class="modal fade" id="AddDiscount" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal fade" id="AddDiscount" role="dialog" tabindex="-1" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <form role="form" action="<?=base_url('add_discount');?>" method="POST" enctype="multipart/form-data"> 
@@ -944,22 +944,25 @@
             <form role="form" action="<?=base_url('save_payment');?>" method="POST" enctype="multipart/form-data"> 
                 <input type="hidden" name="refno" id="payment_refno">               
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal">×</button>
+                <!-- <button type="button" class="close" data-dismiss="modal">×</button> -->
                 <h3>Amount Tendered</h3>
             </div>
             <div class="modal-body">
                 <div class="form-group">
                     <label for="exampleInputEmail1">Transaction Type</label>
-                    <select name="trantype" class="form-control" required>
+                    <!-- <select name="trantype" class="form-control" required autofocus>
                         <option value="">Select Transaction Type</option>
                         <option value="Dine in">Dine in</option>
                         <option value="Take out">Take out</option>
                         <option value="Room Service">Room Service</option>
-                    </select>
+                    </select> -->
+                    <input type="radio" name="trantype" value="Dine in" checked tabindex="0"> Dine in
+                    <input type="radio" name="trantype" value="Take out"> Take out
+                    <input type="radio" name="trantype" value="Room Service"> Room Service
                 </div>
                 <div class="form-group">
                     <label for="exampleInputEmail1">Table No.</label>
-                    <select name="controlno" class="form-control" requied>
+                    <!-- <select name="controlno" class="form-control" requied>
                         <option value="">Select No.</option>
                         <option value="Room Service">No Table</option>
                         <option value="1">1</option>
@@ -982,7 +985,23 @@
                         <option value="18">18</option>
                         <option value="19">19</option>
                         <option value="20">20</option>
-                    </select>
+                    </select> -->
+                    <input type="radio" name="controlno" value="Room Service" checked> No Table<br>
+                    <input type="radio" name="controlno" value="1"> 1&nbsp;
+                    <input type="radio" name="controlno" value="2"> 2&nbsp;
+                    <input type="radio" name="controlno" value="3"> 3&nbsp;
+                    <input type="radio" name="controlno" value="4"> 4&nbsp;
+                    <input type="radio" name="controlno" value="5"> 5<br>
+                    <input type="radio" name="controlno" value="6"> 6&nbsp;
+                    <input type="radio" name="controlno" value="7"> 7&nbsp;
+                    <input type="radio" name="controlno" value="8"> 8&nbsp;
+                    <input type="radio" name="controlno" value="9"> 9&nbsp;
+                    <input type="radio" name="controlno" value="10"> 10<br>
+                    <input type="radio" name="controlno" value="11"> 11&nbsp;
+                    <input type="radio" name="controlno" value="12"> 12&nbsp;
+                    <input type="radio" name="controlno" value="13"> 13&nbsp;
+                    <input type="radio" name="controlno" value="14"> 14&nbsp;
+                    <input type="radio" name="controlno" value="15"> 15
                 </div>
                 <div class="form-group">
                     <label for="exampleInputEmail1">Amount</label>

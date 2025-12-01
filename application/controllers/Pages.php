@@ -581,14 +581,14 @@ date_default_timezone_set('Asia/Manila');
             $this->load->view('includes/sidebar');            
             $this->load->view('pages/'.$page,$data);    
             $this->load->view('includes/modal');     
-            $this->load->view('includes/footer');               
+            $this->load->view('includes/footer',$data);               
         }
         public function new_transaction(){
             $refno=date('YmdHis');
             $this->session->set_userdata('refno',$refno);
             $this->session->unset_userdata('type');
             $this->session->unset_userdata('searchme');
-            $this->Sales_model->emptyOrder();
+            $this->Sales_model->emptyOrder();            
             redirect(base_url('point_of_sale'));
         }
         public function cancel_transaction($refno){
@@ -644,7 +644,7 @@ date_default_timezone_set('Asia/Manila');
         }
         public function add_discount(){
             $this->Sales_model->add_discount();
-           // redirect(base_url('point_of_sale'));
+           redirect(base_url('point_of_sale'));
         }
         public function remove_all_discount($refno){
             $this->Sales_model->remove_all_discount($refno);
