@@ -12,7 +12,7 @@
             if($type=="package"){
                 $result=$this->db->query("SELECT r.*,rm.room_type,rm.room_color,p.description FROM reservation r LEFT JOIN room rm ON rm.id=r.res_room_id LEFT JOIN package p ON p.id=r.res_room_id WHERE r.res_status='$status' AND p.description LIKE '%PACKAGE%' ORDER BY r.res_date_arrive ASC");
             }else{
-                $result=$this->db->query("SELECT r.*,rm.room_type,rm.room_color,p.description FROM reservation r LEFT JOIN room rm ON rm.id=r.res_room_id LEFT JOIN package p ON p.id=r.res_room_id WHERE r.res_status='$status' AND (rm.room_type LIKE '%HOUSE%' OR rm.room_type LIKE '%BUNK%' OR rm.room_type LIKE '%DECK%') ORDER BY r.res_date_arrive ASC");
+                $result=$this->db->query("SELECT r.*,rm.room_type,rm.room_color,p.description FROM reservation r LEFT JOIN room rm ON rm.id=r.res_room_id LEFT JOIN package p ON p.id=r.res_room_id WHERE r.res_status='$status' AND (rm.room_type LIKE '%HOUSE%' OR rm.room_type LIKE '%BUNK%' OR rm.room_type LIKE '%DECK%' OR rm.room_type LIKE '%ROOM%' OR rm.room_type LIKE '%SUITE%') ORDER BY r.res_date_arrive ASC");
             }
             return $result->result_array();
         }
