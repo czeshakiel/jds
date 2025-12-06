@@ -44,9 +44,9 @@
 
                     <div style="float:right;">
                         <a href="<?=base_url('new_transaction');?>" class="btn btn-round btn-primary btn-sm" <?=$new;?>><i
-                                class="glyphicon glyphicon-plus"></i> New Transaction (F1)</a>                        
+                                class="glyphicon glyphicon-plus"></i> New Trans (F1)</a>                        
                         <a href="<?=base_url('cancel_transaction/'.$refno);?>" class="btn btn-danger btn-round btn-sm" <?=$cancel;?> onclick="return confirm('Do you wish to cancel this transaction?'); return false;"><i
-                                class="glyphicon glyphicon-remove"></i> Cancel Transaction (F12)</a>
+                                class="glyphicon glyphicon-remove"></i> Cancel Trans (F12)</a>
                                 
                     </div>
                 </div>
@@ -103,7 +103,7 @@
                                      
                                     <td style="text-align:left; vertical-align:top;" width="100" >
                                        <a href="<?=base_url('add_item/'.$item['code']);?>" style="text-decoration:none; color:black; <?=$disabled;?> <?=$q;?>">
-                                        <img src="data:image/jpg;charset=utf8;base64,<?=base64_encode($item['img']);?>" alt="Item" style="width:10vw;" name="img" tabindex="<?=$w;?>">
+                                        <img src="data:image/jpg;charset=utf8;base64,<?=base64_encode($item['img']);?>" alt="Item" style=" width:30vw; max-width:100%;" name="img" tabindex="<?=$w;?>">
                                     </td>
                                         <td>
                                         <b style="font-size:1.2em;"><?=$item['description'];?></b><br>P <b><?=number_format($item['sellingprice'],2);?></b><br>Qty: <b><?=$item['quantity'];?></b>                                                                        
