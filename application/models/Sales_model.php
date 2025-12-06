@@ -100,13 +100,13 @@ date_default_timezone_set('Asia/Manila');
                 if($category=="all"){
                     $result=$this->db->query("SELECT * FROM stocks GROUP BY category ORDER BY `description` ASC LIMIT 1");
                 }else{
-                    $result=$this->db->query("SELECT * FROM stocks WHERE category='$category' GROUP BY category ORDER BY `description` ASC");
+                    $result=$this->db->query("SELECT * FROM stocks WHERE category='$category' GROUP BY category ORDER BY `description` ASC LIMIT 10");
                 }
             }else{
                 if($category=="all"){
                     $result=$this->db->query("SELECT * FROM stocks WHERE dept='$dept' GROUP BY category ORDER BY `description` ASC LIMIT 1");
                 }else{
-                    $result=$this->db->query("SELECT * FROM stocks WHERE dept='$dept' AND category='$category' GROUP BY category ORDER BY `description` ASC");
+                    $result=$this->db->query("SELECT * FROM stocks WHERE dept='$dept' AND category='$category' GROUP BY category ORDER BY `description` ASC LIMIT 10");
                 }
             }
             return $result->result_array();
