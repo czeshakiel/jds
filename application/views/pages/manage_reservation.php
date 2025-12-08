@@ -77,11 +77,15 @@ if($this->session->flashdata('failed')){
                             $weekday=0;
                             $end=0;
                             $day=0;
+							$room_weekday=0;
+							$room_weekend=0;
                             $query=$this->db->query("SELECT * FROM room WHERE id='$room[res_room_id]'");
-                            $r=$query->row_array();
-
-                            $room_weekend=$r['room_rate_weekend'];
-                            $room_weekday=$r['room_rate_weekday'];
+							if($query->num_rows()>0){
+								$r=$query->row_array();
+								$room_weekend=$r['room_rate_weekend'];
+								$room_weekday=$r['room_rate_weekday'];
+							}
+                            
                             //if($room['res_no_nights'] > 1){
                                 for($w=0;$w<$room['res_no_nights'];$w++){
                                     if(date('w',strtotime($w.' day',strtotime($room['res_date_arrive']))) == 5 || date('w',strtotime($w.' day',strtotime($room['res_date_arrive']))) == 6 || date('w',strtotime($w.' day',strtotime($room['res_date_arrive'])))==0){

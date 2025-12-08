@@ -575,7 +575,7 @@ date_default_timezone_set('Asia/Manila');
             $data['category'] = $this->Sales_model->getAllStocksByCategory($type);
             $data['refno'] = $refno;
             $data['tender'] = $this->Sales_model->tendered($refno);
-            $data['type'] = $this->Sales_model->getAllStocksCategory();
+            //$data['type'] = $this->Sales_model->getAllStocksCategory();
             $this->load->view('includes/header'); 
             $this->load->view('includes/navbar');           
             $this->load->view('includes/sidebar');            

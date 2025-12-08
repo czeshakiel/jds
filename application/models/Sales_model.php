@@ -127,13 +127,13 @@ date_default_timezone_set('Asia/Manila');
             if($this->session->dept=="admin"){
                 if($category=="all" || $category==""){
                     if($searchme==""){
-                        $result=$this->db->query("SELECT * FROM stocks ORDER BY `description` ASC LIMIT 10");
+                        $result=$this->db->query("SELECT * FROM stocks ORDER BY `description` ASC LIMIT 3");
                     }else{
                         $result=$this->db->query("SELECT * FROM stocks WHERE `description` LIKE '%$searchme%' OR category LIKE '%$searchme%' ORDER BY `description` ASC");
                     }
                 }else{
                     if($searchme==""){
-                        $result=$this->db->query("SELECT * FROM stocks WHERE category='$category' ORDER BY `description` ASC LIMIT 10");
+                        $result=$this->db->query("SELECT * FROM stocks WHERE category='$category' ORDER BY `description` ASC LIMIT 3");
                     }else{
                         $result=$this->db->query("SELECT * FROM stocks WHERE category='$category' AND `description` LIKE '%$searchme%' OR category LIKE '%$searchme%' ORDER BY `description` ASC");
                     }

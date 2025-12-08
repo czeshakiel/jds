@@ -24,6 +24,9 @@
         $cancel="";
         $new="style='display:none;'";        
         $focus="";
+		echo "<script>";
+			echo "document.getElementById('searchme').focus();";
+		echo "</script>";
     }
     if($tender){
         $disabled="pointer-events: none; cursor: default;";
