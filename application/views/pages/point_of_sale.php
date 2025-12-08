@@ -20,6 +20,8 @@
         $cancel="style='display:none;'";
         $new="";
         $focus="readonly";
+        $hold="style='display:none;'";
+        $holdlist="style='display:none;'";
     }else{
         $cancel="";
         $new="style='display:none;'";        
@@ -27,6 +29,8 @@
 		echo "<script>";
 			echo "document.getElementById('searchme').focus();";
 		echo "</script>";
+        $hold="";
+        $holdlist="";
     }
     if($tender){
         $disabled="pointer-events: none; cursor: default;";
@@ -37,19 +41,20 @@
         $new="";
     }else{
         $new="style='display:none;'";
-    }
+    }    
     ?>
     <div class="row">
         <div class="box col-md-7">
-            <div class="box-inner">
-                <div class="box-header well" data-original-title="">
+            <div class="box-inner"> 
+                <div class="box-header well" data-original-title="" style="height:40px;">
                     <h2><i class="glyphicon glyphicon-th-list"></i> Item List</h2>
 
                     <div style="float:right;">
+                        <a href="#" class="btn btn-round btn-default btn-sm" data-toggle="modal" data-target="#HoldList" <?=$holdlist;?>>Hold List (<?=count($temp);?>)</a>
                         <a href="<?=base_url('new_transaction');?>" class="btn btn-round btn-primary btn-sm" <?=$new;?>><i
-                                class="glyphicon glyphicon-plus"></i> New Trans (F1)</a>                        
+                                class="glyphicon glyphicon-plus"></i> New (F1)</a>                        
                         <a href="<?=base_url('cancel_transaction/'.$refno);?>" class="btn btn-danger btn-round btn-sm" <?=$cancel;?> onclick="return confirm('Do you wish to cancel this transaction?'); return false;"><i
-                                class="glyphicon glyphicon-remove"></i> Cancel Trans (F12)</a>
+                                class="glyphicon glyphicon-remove"></i> Cancel (F12)</a>
                                 
                     </div>
                 </div>
@@ -139,6 +144,7 @@
     }else{
         $proceed="style='display:none;'";
         $discount="style='display:none;'";
+        $hold="style='display:none;'";
     }
 
     $disc=0;
@@ -169,18 +175,20 @@
         <div class="row">
             <div class="box col-md-5">
                 <div class="box-inner">
-                    <div class="box-header well" data-original-title="">
-                        <h2><i class="glyphicon glyphicon-shopping-cart"></i> Punched Items</h2>
+                    <div class="box-header well" data-original-title="" style="height:40px;">
+                        <h2><i class="glyphicon glyphicon-shopping-cart"></i> Items</h2>
 
                         <div style="float:right;">
+                            <a href="<?=base_url('hold_transaction/'.$refno);?>" class="btn btn-round btn-default btn-sm holdtransaction" <?=$hold;?>><i
+                                    class="glyphicon glyphicon-stop"></i> Hold (H)</a>
                             <a href="#" class="btn btn-round btn-primary btn-sm proceedPayment" <?=$proceed;?> data-toggle="modal" data-target="#ProceedPayment" data-id="<?=$refno;?>"><i
-                                    class="glyphicon glyphicon-share"></i> Proceed (Ctrl + D)</a>
+                                    class="glyphicon glyphicon-share"></i> Pay (Ctrl + D)</a>
                             <a href="<?=base_url('print_receipt/'.$refno);?>" class="btn btn-round btn-success btn-sm" <?=$print;?> target="_blank"><i
                                     class="glyphicon glyphicon-print"></i> Print Receipt (F3)</a>
                                     <a href="<?=base_url('print_order_slip/'.$refno);?>" class="btn btn-round btn-primary btn-sm" <?=$print;?> target="_blank"><i
                                     class="glyphicon glyphicon-print"></i> Print Slip (F4)</a>
                             <a href="#" class="btn btn-round btn-warning btn-sm addDiscount" data-toggle="modal" data-target="#AddDiscount" data-id="<?=$refno;?>" <?=$discount;?>><i
-                                    class="glyphicon glyphicon-plus"></i> Add Discount (Ctrl + F)</a>
+                                    class="glyphicon glyphicon-plus"></i> Discount (Ctrl + F)</a>
                             <a href="<?=base_url('remove_all_discount/'.$refno);?>" class="btn btn-round btn-info btn-sm removealldisc" <?=$viewdisc;?> onclick="return confirm('Do you wish to remove all dicount?'); return false;"><i
                                     class="glyphicon glyphicon-minus"></i> Remove All Discount (Ctrl + Z)</a>
                         </div>

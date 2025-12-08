@@ -575,7 +575,7 @@ date_default_timezone_set('Asia/Manila');
             $data['category'] = $this->Sales_model->getAllStocksByCategory($type);
             $data['refno'] = $refno;
             $data['tender'] = $this->Sales_model->tendered($refno);
-            //$data['type'] = $this->Sales_model->getAllStocksCategory();
+            $data['temp']=$this->Sales_model->getHoldList();
             $this->load->view('includes/header'); 
             $this->load->view('includes/navbar');           
             $this->load->view('includes/sidebar');            
@@ -596,6 +596,21 @@ date_default_timezone_set('Asia/Manila');
             $this->session->unset_userdata('refno');
             $this->session->unset_userdata('type');
             $this->session->unset_userdata('searchme');
+            redirect(base_url('point_of_sale'));
+        }
+        public function hold_transaction($rrno){
+            $refno=date('YmdHis');
+            $this->session->set_userdata('refno',$refno);
+            $this->session->unset_userdata('type');
+            $this->session->unset_userdata('searchme');
+            $this->Sales_model->holdtransaction($rrno);            
+            redirect(base_url('point_of_sale'));
+        }
+        public function unhold_transaction($refno){            
+            $this->session->set_userdata('refno',$refno);
+            $this->session->unset_userdata('type');
+            $this->session->unset_userdata('searchme');
+            $this->Sales_model->resumetransaction($refno);            
             redirect(base_url('point_of_sale'));
         }
         public function add_item($code){

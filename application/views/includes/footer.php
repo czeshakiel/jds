@@ -474,7 +474,15 @@ document.addEventListener('keydown', function(event) {
     }
     // Perform your desired action here
   }
-
+  if (event.key === 'h') {
+    event.preventDefault();
+    if(confirm('Do you wish to suspend this transaction?')){
+    window.location = "<?=base_url('hold_transaction/'.$refno);?>";
+    }else{
+        return false;
+    }
+    // Perform your desired action here
+  }
   // Example 3: Multiple modifier keys (e.g., Ctrl + Alt + Y)
   if (event.ctrlKey && event.altKey && event.key === 'y') {
     event.preventDefault();

@@ -1553,3 +1553,32 @@
         </div>
     </div>
 </div>
+<div class="modal fade" id="HoldList" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">            
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">×</button>
+                <h3>Suspended Transaction</h3>
+            </div>
+            <div class="modal-body">
+                <table class="table">
+                    <tr>
+                        <td>Transaction ID</td>
+                        <td>Action</td>
+                    </tr>
+                    <?php
+                    foreach($temp as $item){
+                        echo "<tr>";
+                            echo "<td>$item[trans_id]</td>";
+                            echo "<td><a href='unhold_transaction/$item[trans_id]' class='btn btn-primary btn-round btn-sm'>Resume</a></td>";
+                        echo "</tr>";
+                    }
+                    ?>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <a href="#" class="btn btn-default" data-dismiss="modal">Close</a>                
+            </div>
+        </div>
+    </div>
+</div>

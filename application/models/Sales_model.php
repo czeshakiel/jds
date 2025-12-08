@@ -156,7 +156,7 @@ date_default_timezone_set('Asia/Manila');
             return $result->result_array();
         }
         public function getAllPunchedItems($refno){
-            $result=$this->db->query("SELECT so.*,s.description FROM stock_ordered so INNER JOIN stocks s ON s.code=so.code WHERE so.trans_id='$refno'");
+            $result=$this->db->query("SELECT so.*,s.description FROM stock_ordered so INNER JOIN stocks s ON s.code=so.code WHERE so.trans_id='$refno' AND so.status='pending'");
             return $result->result_array();
         }
         public function cancel_transaction($refno){
@@ -276,13 +276,14 @@ date_default_timezone_set('Asia/Manila');
             }
             if($result){
                 $this->db->query("INSERT INTO tendered SET trans_id='$refno',amount='$amount'");                
+                $this->db->query("UPDATE stock_ordered SET `status`='paid' WHERE trans_id='$refno'"); 
                 return true;
             }else{
                 return false;
             }
         }
         public function emptyOrder(){
-            $result=$this->db->query("TRUNCATE stock_ordered");
+            $result=$this->db->query("DELETE FROM stock_ordered WHERE `status`='paid'");
         }
         public function getSales($refno){
             $result=$this->db->query("SELECT so.*,s.description,s.category FROM stock_out so INNER JOIN stocks s ON s.code=so.code WHERE so.trans_id='$refno'");
@@ -477,6 +478,16 @@ date_default_timezone_set('Asia/Manila');
                 return false;
             }        
 
+        }
+        public function getHoldList(){
+            $result=$this->db->query("SELECT * FROM stock_ordered WHERE `status`='hold' GROUP BY trans_id ORDER BY trans_id ASC");
+            return $result->result_array();
+        }
+        public function holdtransaction($refno){
+            $result=$this->db->query("UPDATE stock_ordered SET `status`='hold' WHERE trans_id='$refno'");            
+        }
+        public function resumetransaction($refno){
+            $result=$this->db->query("UPDATE stock_ordered SET `status`='pending' WHERE trans_id='$refno'");            
         }
     }
 ?>
