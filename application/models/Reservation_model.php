@@ -282,7 +282,7 @@
             }else{
                 return false;
             }
-        }
+        }        
         public function checkUserPayment($username,$password){            
             $result=$this->db->query("SELECT * FROM user WHERE username='$username' AND `password`='$password' AND Access='1'");
             if($result->num_rows()>0){
@@ -293,6 +293,14 @@
         }
         public function checkUserCharges($username,$password){
             $result=$this->db->query("SELECT * FROM user WHERE username='$username' AND `password`='$password' AND (Access='1' OR Access='2' OR Access='3')");
+            if($result->num_rows()>0){
+                return true;
+            }else{
+                return false;
+            }
+        }
+        public function checkUserCancel($username,$password){
+            $result=$this->db->query("SELECT * FROM user WHERE username='$username' AND `password`='$password' AND is_admin='1'");
             if($result->num_rows()>0){
                 return true;
             }else{
@@ -352,6 +360,17 @@
         public function getAllStatistic($startdate,$enddate){
             $result=$this->db->query("SELECT * FROM reservation WHERE res_date_depart BETWEEN '$startdate' AND '$enddate' AND res_status='checkedout'");
             return $result->result_array();
+        }
+        public function cancel_checkin($id){
+            $result=$this->db->query("UPDATE reservation SET res_status='booked' WHERE res_id='$id'");
+            if($result){
+                $this->db->query("DELETE FROM reservation_details WHERE res_id='$id'");
+                $this->db->query("DELETE FROM reservation_payment WHERE res_id='$id'");
+                $this->db->query("DELETE FROM room_charge WHERE res_id='$id'");
+                return true;
+            }else{
+                return false;
+            }
         }
     }
 ?>

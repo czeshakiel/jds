@@ -321,6 +321,11 @@
         document.getElementById('checkin_total_amount').value=id[1];
     });
 
+     $('.cancelCheckIn').click(function(){
+        var id=$(this).data('id');
+        document.getElementById("cancel_checkin_refno").value=id;
+    });
+
     function viewStat(value){
         if(value=="monthly"){
             document.getElementById('stat_month').style.display = 'block';

@@ -115,6 +115,7 @@ if($reserve['room_type']==""){
                     <a href="#" class="btn btn-round btn-default billPayment" <?=$bill;?> title="Payment" data-toggle="modal" data-target="#BillPayment" data-id="<?=$refno;?>_<?=$other;?>_<?=$disc;?>"><i class="glyphicon glyphicon-folder-open"></i> Payment</a>
                     <a href="#" class="btn btn-round btn-danger undoPayment" <?=$undo;?> title="Cancel Payment" data-toggle="modal" data-target="#UndoPayment" data-id="<?=$refno;?>"><i class="glyphicon glyphicon-share"></i> Undo Payment</a>
                     <a href="<?=base_url('print_bill/'.$refno);?>" class="btn btn-round btn-default" title="Print Billing Statement" target="_blank"><i class="glyphicon glyphicon-print"></i> <?=$label;?></a>
+                    <a href="#" class="btn btn-round btn-danger cancelCheckIn" title="Cancel Check In" data-toggle="modal" data-target="#CancelCheckIn" data-id="<?=$refno;?>"><i class="glyphicon glyphicon-share"></i> Revert Checkin</a>
                 </div>              
             </div>
             <div class="box-content">

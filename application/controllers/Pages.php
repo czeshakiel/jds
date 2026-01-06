@@ -1039,5 +1039,23 @@ date_default_timezone_set('Asia/Manila');
             $data['type'] = $type;
             $this->load->view('pages/'.$page,$data);                           
         }
+
+        public function cancel_checkin(){
+            $refno=$this->input->post('refno');
+            $username=$this->input->post('username');
+            $password=$this->input->post('password');
+            $check=$this->Reservation_model->checkUserCancel($username,$password);
+            if($check){
+                $save=$this->Reservation_model->cancel_checkin($refno);
+                if($save){
+                    $this->session->set_flashdata('success','Checkin successfully reverted!');
+                }else{
+                    $this->session->set_flashdata('failed','Unable to revert checkin!');
+                }
+            }else{
+                $this->session->set_flashdata('failed','You are not authorized!');
+            }
+            redirect(base_url('manage_reservation/room'));
+        }
 }
 ?>

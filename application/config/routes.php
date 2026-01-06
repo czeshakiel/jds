@@ -50,6 +50,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 |		my-controller/my-method	-> my_controller/my_method
 */
 #
+$route['cancel_checkin'] = 'pages/cancel_checkin';
 $route['unhold_transaction/(:any)'] = 'pages/unhold_transaction/$1';
 $route['hold_transaction/(:any)'] = 'pages/hold_transaction/$1';
 $route['undo_payment'] = 'pages/undo_payment';
